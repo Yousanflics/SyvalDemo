@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		BCB15FC22DE8FA0900D9EAAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB15FAC2DE8FA0700D9EAAE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCB15FB32DE8FA0700D9EAAE;
+			remoteInfo = SyvalSocial;
+		};
+		BCB15FCC2DE8FA0900D9EAAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB15FAC2DE8FA0700D9EAAE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCB15FB32DE8FA0700D9EAAE;
+			remoteInfo = SyvalSocial;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BCB15FB42DE8FA0700D9EAAE /* SyvalSocial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SyvalSocial.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCB15FC12DE8FA0900D9EAAE /* SyvalSocialTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SyvalSocialTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCB15FCB2DE8FA0900D9EAAE /* SyvalSocialUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SyvalSocialUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		BCB15FB62DE8FA0700D9EAAE /* SyvalSocial */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SyvalSocial;
+			sourceTree = "<group>";
+		};
+		BCB15FC42DE8FA0900D9EAAE /* SyvalSocialTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SyvalSocialTests;
+			sourceTree = "<group>";
+		};
+		BCB15FCE2DE8FA0900D9EAAE /* SyvalSocialUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SyvalSocialUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BCB15FB12DE8FA0700D9EAAE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB15FBE2DE8FA0900D9EAAE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB15FC82DE8FA0900D9EAAE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BCB15FAB2DE8FA0700D9EAAE = {
+			isa = PBXGroup;
+			children = (
+				BCB15FB62DE8FA0700D9EAAE /* SyvalSocial */,
+				BCB15FC42DE8FA0900D9EAAE /* SyvalSocialTests */,
+				BCB15FCE2DE8FA0900D9EAAE /* SyvalSocialUITests */,
+				BCB15FB52DE8FA0700D9EAAE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BCB15FB52DE8FA0700D9EAAE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BCB15FB42DE8FA0700D9EAAE /* SyvalSocial.app */,
+				BCB15FC12DE8FA0900D9EAAE /* SyvalSocialTests.xctest */,
+				BCB15FCB2DE8FA0900D9EAAE /* SyvalSocialUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BCB15FB32DE8FA0700D9EAAE /* SyvalSocial */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCB15FD52DE8FA0900D9EAAE /* Build configuration list for PBXNativeTarget "SyvalSocial" */;
+			buildPhases = (
+				BCB15FB02DE8FA0700D9EAAE /* Sources */,
+				BCB15FB12DE8FA0700D9EAAE /* Frameworks */,
+				BCB15FB22DE8FA0700D9EAAE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BCB15FB62DE8FA0700D9EAAE /* SyvalSocial */,
+			);
+			name = SyvalSocial;
+			packageProductDependencies = (
+			);
+			productName = SyvalSocial;
+			productReference = BCB15FB42DE8FA0700D9EAAE /* SyvalSocial.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BCB15FC02DE8FA0900D9EAAE /* SyvalSocialTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCB15FD82DE8FA0900D9EAAE /* Build configuration list for PBXNativeTarget "SyvalSocialTests" */;
+			buildPhases = (
+				BCB15FBD2DE8FA0900D9EAAE /* Sources */,
+				BCB15FBE2DE8FA0900D9EAAE /* Frameworks */,
+				BCB15FBF2DE8FA0900D9EAAE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BCB15FC32DE8FA0900D9EAAE /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BCB15FC42DE8FA0900D9EAAE /* SyvalSocialTests */,
+			);
+			name = SyvalSocialTests;
+			packageProductDependencies = (
+			);
+			productName = SyvalSocialTests;
+			productReference = BCB15FC12DE8FA0900D9EAAE /* SyvalSocialTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BCB15FCA2DE8FA0900D9EAAE /* SyvalSocialUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCB15FDB2DE8FA0900D9EAAE /* Build configuration list for PBXNativeTarget "SyvalSocialUITests" */;
+			buildPhases = (
+				BCB15FC72DE8FA0900D9EAAE /* Sources */,
+				BCB15FC82DE8FA0900D9EAAE /* Frameworks */,
+				BCB15FC92DE8FA0900D9EAAE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BCB15FCD2DE8FA0900D9EAAE /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BCB15FCE2DE8FA0900D9EAAE /* SyvalSocialUITests */,
+			);
+			name = SyvalSocialUITests;
+			packageProductDependencies = (
+			);
+			productName = SyvalSocialUITests;
+			productReference = BCB15FCB2DE8FA0900D9EAAE /* SyvalSocialUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BCB15FAC2DE8FA0700D9EAAE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					BCB15FB32DE8FA0700D9EAAE = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					BCB15FC02DE8FA0900D9EAAE = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = BCB15FB32DE8FA0700D9EAAE;
+					};
+					BCB15FCA2DE8FA0900D9EAAE = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = BCB15FB32DE8FA0700D9EAAE;
+					};
+				};
+			};
+			buildConfigurationList = BCB15FAF2DE8FA0700D9EAAE /* Build configuration list for PBXProject "SyvalSocial" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BCB15FAB2DE8FA0700D9EAAE;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = BCB15FB52DE8FA0700D9EAAE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BCB15FB32DE8FA0700D9EAAE /* SyvalSocial */,
+				BCB15FC02DE8FA0900D9EAAE /* SyvalSocialTests */,
+				BCB15FCA2DE8FA0900D9EAAE /* SyvalSocialUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BCB15FB22DE8FA0700D9EAAE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB15FBF2DE8FA0900D9EAAE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB15FC92DE8FA0900D9EAAE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BCB15FB02DE8FA0700D9EAAE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB15FBD2DE8FA0900D9EAAE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB15FC72DE8FA0900D9EAAE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BCB15FC32DE8FA0900D9EAAE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCB15FB32DE8FA0700D9EAAE /* SyvalSocial */;
+			targetProxy = BCB15FC22DE8FA0900D9EAAE /* PBXContainerItemProxy */;
+		};
+		BCB15FCD2DE8FA0900D9EAAE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCB15FB32DE8FA0700D9EAAE /* SyvalSocial */;
+			targetProxy = BCB15FCC2DE8FA0900D9EAAE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BCB15FD32DE8FA0900D9EAAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9LSWG9NAA6;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BCB15FD42DE8FA0900D9EAAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9LSWG9NAA6;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BCB15FD62DE8FA0900D9EAAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9LSWG9NAA6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yousanflics.demo.SyvalSocial;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BCB15FD72DE8FA0900D9EAAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9LSWG9NAA6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yousanflics.demo.SyvalSocial;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BCB15FD92DE8FA0900D9EAAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9LSWG9NAA6;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yousanflics.demo.SyvalSocialTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SyvalSocial.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SyvalSocial";
+			};
+			name = Debug;
+		};
+		BCB15FDA2DE8FA0900D9EAAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9LSWG9NAA6;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yousanflics.demo.SyvalSocialTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SyvalSocial.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SyvalSocial";
+			};
+			name = Release;
+		};
+		BCB15FDC2DE8FA0900D9EAAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9LSWG9NAA6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yousanflics.demo.SyvalSocialUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SyvalSocial;
+			};
+			name = Debug;
+		};
+		BCB15FDD2DE8FA0900D9EAAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9LSWG9NAA6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yousanflics.demo.SyvalSocialUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SyvalSocial;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BCB15FAF2DE8FA0700D9EAAE /* Build configuration list for PBXProject "SyvalSocial" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB15FD32DE8FA0900D9EAAE /* Debug */,
+				BCB15FD42DE8FA0900D9EAAE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCB15FD52DE8FA0900D9EAAE /* Build configuration list for PBXNativeTarget "SyvalSocial" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB15FD62DE8FA0900D9EAAE /* Debug */,
+				BCB15FD72DE8FA0900D9EAAE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCB15FD82DE8FA0900D9EAAE /* Build configuration list for PBXNativeTarget "SyvalSocialTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB15FD92DE8FA0900D9EAAE /* Debug */,
+				BCB15FDA2DE8FA0900D9EAAE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCB15FDB2DE8FA0900D9EAAE /* Build configuration list for PBXNativeTarget "SyvalSocialUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB15FDC2DE8FA0900D9EAAE /* Debug */,
+				BCB15FDD2DE8FA0900D9EAAE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BCB15FAC2DE8FA0700D9EAAE /* Project object */;
+}
