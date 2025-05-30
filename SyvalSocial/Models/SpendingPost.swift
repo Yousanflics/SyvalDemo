@@ -136,6 +136,7 @@ struct Comment: Identifiable, Codable {
 
 struct PostFeedResponse: Codable {
     let posts: [SpendingPost]
+    // pagination
     let hasMore: Bool
     let nextPage: Int?
 }

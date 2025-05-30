@@ -15,11 +15,11 @@ class MockDataService: ObservableObject {
     // -
     private var mockUsers: [User] = [
         //
-        User(username: "metra", displayName: "Metra", avatarEmoji: "✈️", followersCount: 1200, followingCount: 430),
-        User(username: "shein_lover", displayName: "Shein", avatarEmoji: "🛍️", followersCount: 890, followingCount: 234),
-        User(username: "storage_king", displayName: "Fort Wayne Storage", avatarEmoji: "📦", followersCount: 340, followingCount: 120),
-        User(username: "coffee_addict", displayName: "Haraz Coffee", avatarEmoji: "☕", followersCount: 567, followingCount: 290),
-        User(username: "foodie_life", displayName: "Alex Chen", avatarEmoji: "🍕", followersCount: 2100, followingCount: 678)
+        User(username: "Haruka", displayName: "Haruka_T", avatarEmoji: "💁‍♀️", followersCount: 1200, followingCount: 430),
+        User(username: "shein_lover", displayName: "SheinLover", avatarEmoji: "🧝‍♀️", followersCount: 890, followingCount: 234),
+        User(username: "Aira_att", displayName: "Aria Attar", avatarEmoji: "🙆‍♂️", followersCount: 340, followingCount: 120),
+        User(username: "coffee_addict", displayName: "CoffeFox", avatarEmoji: "🦊", followersCount: 567, followingCount: 290),
+        User(username: "foodie_life", displayName: "Alex Chen", avatarEmoji: "👨‍💻", followersCount: 2100, followingCount: 678)
     ]
     
     @Published var posts: [SpendingPost] = []

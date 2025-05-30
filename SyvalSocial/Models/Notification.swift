@@ -85,7 +85,6 @@ struct AppNotification: Identifiable, Codable {
         }
     }
     
-    // 初始化方法
     init(type: NotificationType, fromUser: User, message: String = "", timestamp: Date = Date(), isRead: Bool = false, relatedPostId: UUID? = nil, actionId: UUID? = nil) {
         self.type = type
         self.fromUser = fromUser
