@@ -18,6 +18,148 @@ extension Color {
     }
 }
 
+// MARK: - Truncated Text View Component
+struct TruncatedTextView: View {
+    let text: String
+    let lineLimit: Int
+    let onMoreTapped: () -> Void
+    
+    @State private var isTruncated = false
+    @State private var fullText = ""
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(text)
+                .font(.body)
+                .lineLimit(lineLimit)
+                .background(
+                    // Hidden text to measure if truncation is needed
+                    Text(text)
+                        .font(.body)
+                        .lineLimit(nil)
+                        .background(GeometryReader { geometry in
+                            Color.clear.onAppear {
+                                let font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                                let boundingRect = NSString(string: text).boundingRect(
+                                    with: CGSize(width: geometry.size.width, height: .greatestFiniteMagnitude),
+                                    options: .usesLineFragmentOrigin,
+                                    attributes: [.font: font],
+                                    context: nil
+                                )
+                                
+                                let singleLineHeight = font.lineHeight
+                                let maxAllowedHeight = singleLineHeight * CGFloat(lineLimit)
+                                isTruncated = boundingRect.height > maxAllowedHeight
+                            }
+                        })
+                        .hidden()
+                )
+            
+            if isTruncated {
+                HStack(spacing: 0) {
+                    Text("...")
+                        .font(.body)
+                    
+                    Text(" ")
+                        .font(.body)
+                        .frame(width: 8) // Slightly larger spacing
+                    
+                    Button(action: onMoreTapped) {
+                        Text("more")
+                            .font(.body)
+                            .foregroundColor(.blue)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Spacer()
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Social Actions View Component
+struct SocialActionsView: View {
+    let isLiked: Bool
+    let likesCount: Int
+    let commentsCount: Int
+    let sharesCount: Int
+    
+    let onLike: () -> Void
+    let onComment: () -> Void
+    let onShare: () -> Void
+    let onMore: () -> Void
+    
+    var body: some View {
+        HStack(spacing: 20) {
+            // Like button
+            Button(action: onLike) {
+                HStack(spacing: 6) {
+                    Image(systemName: isLiked ? "heart.fill" : "heart")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .foregroundColor(isLiked ? .red : .black)
+                    
+                    if likesCount > 0 {
+                        Text("\(likesCount)")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(.black)
+                    }
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            // Comment button
+            Button(action: onComment) {
+                HStack(spacing: 6) {
+                    Image(systemName: "bubble.right")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .foregroundColor(.black)
+                    
+                    if commentsCount > 0 {
+                        Text("\(commentsCount)")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(.black)
+                    }
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            // Share button
+            Button(action: onShare) {
+                HStack(spacing: 6) {
+                    Image(systemName: "arrowshape.turn.up.right")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .foregroundColor(.black)
+                    
+                    if sharesCount > 0 {
+                        Text("\(sharesCount)")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(.black)
+                    }
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Spacer()
+            
+            // More options button
+            Button(action: onMore) {
+                Image(systemName: "ellipsis")
+                    .font(.title3)
+                    .fontWeight(.medium)
+                    .foregroundColor(.black)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+}
+
 // MARK: - Comment Row View
 struct CommentRowView: View {
     let comment: Comment
@@ -59,7 +201,8 @@ struct CommentRowView: View {
                         // Like button
                         HStack(spacing: 2) {
                             Image(systemName: comment.isLikedByCurrentUser ? "heart.fill" : "heart")
-                                .font(.caption2)
+                                .font(.caption)
+                                .fontWeight(.semibold)
                                 .foregroundColor(comment.isLikedByCurrentUser ? .red : .secondary)
                             
                             if comment.likesCount > 0 {
@@ -121,6 +264,10 @@ struct PostCardView: View {
     @State private var isLoadingComments = false
     @State private var commentText = ""
     @State private var showingShareSheet = false
+    @State private var showingActionSheet = false
+    @State private var showingEditPost = false
+    @State private var showingPrivacyTooltip = false
+    @State private var showingPostDetail = false
     @State private var cancellables = Set<AnyCancellable>()
     
     // 分享内容
@@ -154,14 +301,48 @@ struct PostCardView: View {
                 Spacer()
                 
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text(post.timeAgo)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                    HStack(spacing: 4) {
+                        // Edited label if post was edited
+                        if post.isEdited {
+                            Text("Edited")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        Text(post.timeAgo)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        // Privacy status button
+                        Button(action: {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                showingPrivacyTooltip.toggle()
+                            }
+                        }) {
+                            Image(systemName: post.isPrivate ? "person.fill" : "globe")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
                     
                     if let location = post.location {
                         Label(location, systemImage: "location.fill")
                             .font(.caption2)
                             .foregroundColor(.secondary)
+                    }
+                    
+                    // Privacy tooltip
+                    if showingPrivacyTooltip {
+                        Text("This post is visible to \(post.isPrivate ? "yourself" : "anyone on Syval")")
+                            .font(.caption2)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(Color(.systemGray6))
+                            )
+                            .transition(.opacity.combined(with: .move(edge: .top)))
                     }
                 }
             }
@@ -217,30 +398,19 @@ struct PostCardView: View {
             
             // Caption
             if !post.caption.isEmpty {
-                Text(post.caption)
-                    .font(.body)
-                    .lineLimit(nil)
+                TruncatedTextView(text: post.caption, lineLimit: 3, onMoreTapped: {
+                    showingPostDetail = true
+                })
             }
             
             // Social actions
-            HStack(spacing: 24) {
-                // Like button
-                Button(action: onLike) {
-                    HStack(spacing: 4) {
-                        Image(systemName: post.isLikedByCurrentUser ? "heart.fill" : "heart")
-                            .foregroundColor(post.isLikedByCurrentUser ? .red : .secondary)
-                        
-                        if post.likesCount > 0 {
-                            Text("\(post.likesCount)")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
-                .buttonStyle(PlainButtonStyle())
-                
-                // Comment button
-                Button(action: {
+            SocialActionsView(
+                isLiked: post.isLikedByCurrentUser,
+                likesCount: post.likesCount,
+                commentsCount: post.commentsCount,
+                sharesCount: post.sharesCount,
+                onLike: onLike,
+                onComment: {
                     withAnimation(.easeInOut(duration: 0.3)) {
                         showingAllComments.toggle()
                     }
@@ -250,44 +420,19 @@ struct PostCardView: View {
                     }
                     
                     onComment()
-                }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "bubble.left")
-                            .foregroundColor(.secondary)
-                        
-                        if post.commentsCount > 0 {
-                            Text("\(post.commentsCount)")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
-                .buttonStyle(PlainButtonStyle())
-                
-                // Share button
-                Button(action: {
+                },
+                onShare: {
                     showingShareSheet = true
-                }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "square.and.arrow.up")
-                            .foregroundColor(.secondary)
-                        
-                        if post.sharesCount > 0 {
-                            Text("\(post.sharesCount)")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
+                    onShare()
+                },
+                onMore: {
+                    showingActionSheet = true
                 }
-                .buttonStyle(PlainButtonStyle())
-                .nativeShareSheet(isPresented: $showingShareSheet, items: shareItems) {
-                    // for debug logging
-                    print("📤 Share sheet presented")
-                }
-                
-                Spacer()
+            )
+            .nativeShareSheet(isPresented: $showingShareSheet, items: shareItems) {
+                // for debug logging
+                print("📤 Share sheet presented")
             }
-            .font(.subheadline)
             
             // Comments section
             if showingAllComments {
@@ -325,6 +470,8 @@ struct PostCardView: View {
                     } else if comments.isEmpty {
                         HStack {
                             Image(systemName: "bubble.left")
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
                                 .foregroundColor(.secondary)
                             Text("No comments yet")
                                 .font(.caption)
@@ -354,12 +501,51 @@ struct PostCardView: View {
                 .fill(Color(.systemBackground))
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
+        .contentShape(Rectangle()) // Make entire card tappable
+        .onTapGesture {
+            // Hide privacy tooltip when tapping elsewhere
+            if showingPrivacyTooltip {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    showingPrivacyTooltip = false
+                }
+            } else {
+                // Navigate to detail view when tapping anywhere on the card
+                showingPostDetail = true
+            }
+        }
         .onAppear {
             // Load preview comments when card appears
             if !comments.isEmpty == false && post.commentsCount > 0 {
                 loadComments()
             }
         }
+        .confirmationDialog("Post Options", isPresented: $showingActionSheet, titleVisibility: .visible) {
+            Button("Edit Post") {
+                showingEditPost = true
+            }
+            
+            Button("Delete Post", role: .destructive) {
+                // Handle delete post
+                print("Delete post: \(post.id)")
+                feedViewModel.deletePost(post)
+            }
+            
+            Button("Cancel", role: .cancel) {
+                // Dismiss action sheet
+            }
+        }
+        .sheet(isPresented: $showingEditPost) {
+            CreatePostView(editingPost: post)
+        }
+        .background(
+            NavigationLink(
+                destination: PostDetailView(post: post, feedViewModel: feedViewModel),
+                isActive: $showingPostDetail
+            ) {
+                EmptyView()
+            }
+            .hidden()
+        )
     }
     
     private func loadComments() {
@@ -376,6 +562,8 @@ struct PostCardView: View {
                 },
                 receiveValue: { loadedComments in
                     comments = loadedComments
+                    // The comment count should already be updated by the MockDataService
+                    // when generateCommentsForPost is called
                 }
             )
             .store(in: &cancellables)

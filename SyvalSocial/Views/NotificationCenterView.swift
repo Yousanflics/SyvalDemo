@@ -152,6 +152,7 @@ struct NotificationRowView: View {
                     // 通知类型图标
                     Image(systemName: notification.type.iconName)
                         .font(.caption)
+                        .fontWeight(.semibold)
                         .foregroundColor(Color.hex(notification.type.iconColor))
                         .frame(width: 16, height: 16)
                         .background(

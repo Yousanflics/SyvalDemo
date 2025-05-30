@@ -1,8 +1,17 @@
 import SwiftUI
 
 struct CreatePostView: View {
-    @StateObject private var viewModel = CreatePostViewModel()
+    @StateObject private var viewModel: CreatePostViewModel
     @Environment(\.dismiss) private var dismiss
+    
+    // Support both create and edit modes
+    init(editingPost: SpendingPost? = nil) {
+        if let editingPost = editingPost {
+            _viewModel = StateObject(wrappedValue: CreatePostViewModel(editingPost: editingPost))
+        } else {
+            _viewModel = StateObject(wrappedValue: CreatePostViewModel())
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -102,10 +111,10 @@ struct CreatePostView: View {
                 Section {
                     Toggle("Private post", isOn: $viewModel.isPrivate)
                 } footer: {
-                    Text("Private posts are only visible to you")
+                    Text("This post is visible to \(viewModel.isPrivate ? "yourself" : "anyone on Syval")")
                 }
             }
-            .navigationTitle("Share Spending")
+            .navigationTitle(viewModel.isEditMode ? "Editing Spending" : "Share Spending")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -115,7 +124,7 @@ struct CreatePostView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Share") {
+                    Button(viewModel.isEditMode ? "Save" : "Share") {
                         viewModel.createPost()
                     }
                     .disabled(!viewModel.isFormValid || viewModel.isPosting)
@@ -144,12 +153,12 @@ struct CreatePostView: View {
                 }
             }
         }
-        .alert("Post Shared!", isPresented: $viewModel.showingSuccessAlert) {
+        .alert(viewModel.isEditMode ? "Post Updated!" : "Post Shared!", isPresented: $viewModel.showingSuccessAlert) {
             Button("OK") {
                 dismiss()
             }
         } message: {
-            Text("Your spending experience has been shared with your friends!")
+            Text(viewModel.isEditMode ? "Your spending post has been updated successfully!" : "Your spending experience has been shared with your friends!")
         }
         .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
             Button("OK") {

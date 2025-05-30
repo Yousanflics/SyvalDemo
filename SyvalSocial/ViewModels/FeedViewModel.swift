@@ -84,4 +84,21 @@ class FeedViewModel: ObservableObject {
     func getComments(for post: SpendingPost) -> AnyPublisher<[Comment], Error> {
         return dataService.getComments(postId: post.id)
     }
+    
+    func deletePost(_ post: SpendingPost) {
+        dataService.deletePost(postId: post.id)
+            .receive(on: DispatchQueue.main)
+            .sink(
+                receiveCompletion: { completion in
+                    if case .failure(let error) = completion {
+                        print("Failed to delete post: \(error)")
+                    }
+                },
+                receiveValue: { _ in
+                    // Post deletion is handled by the data service
+                    print("Post deleted successfully")
+                }
+            )
+            .store(in: &cancellables)
+    }
 } 

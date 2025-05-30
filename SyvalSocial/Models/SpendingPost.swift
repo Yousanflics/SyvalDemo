@@ -86,6 +86,9 @@ struct SpendingPost: Identifiable, Codable {
     let location: String?
     let isPrivate: Bool
     
+    // Edit tracking
+    var editedAt: Date?
+    
     // Social metrics
     var likesCount: Int
     var commentsCount: Int
@@ -96,7 +99,12 @@ struct SpendingPost: Identifiable, Codable {
     var timeAgo: String {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .abbreviated
-        return formatter.localizedString(for: timestamp, relativeTo: Date())
+        let displayDate = editedAt ?? timestamp
+        return formatter.localizedString(for: displayDate, relativeTo: Date())
+    }
+    
+    var isEdited: Bool {
+        return editedAt != nil
     }
     
     var formattedAmount: String {
@@ -142,6 +150,18 @@ struct PostFeedResponse: Codable {
 }
 
 struct CreatePostRequest: Codable {
+    let amount: Double
+    let categoryId: UUID
+    let merchantName: String
+    let description: String
+    let emotion: EmotionType
+    let caption: String
+    let location: String?
+    let isPrivate: Bool
+}
+
+struct UpdatePostRequest: Codable {
+    let postId: UUID
     let amount: Double
     let categoryId: UUID
     let merchantName: String

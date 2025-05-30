@@ -18,8 +18,32 @@ class CreatePostViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var showingSuccessAlert = false
     
+    // Edit mode
+    private var editingPost: SpendingPost?
+    var isEditMode: Bool { editingPost != nil }
+    
     private let dataService = MockDataService.shared
     private var cancellables = Set<AnyCancellable>()
+    
+    // Default initializer for create mode
+    init() {}
+    
+    // Initializer for edit mode
+    init(editingPost: SpendingPost) {
+        self.editingPost = editingPost
+        populateFormWithPost(editingPost)
+    }
+    
+    private func populateFormWithPost(_ post: SpendingPost) {
+        amount = String(post.amount)
+        selectedCategory = post.category
+        merchantName = post.merchantName
+        description = post.description
+        selectedEmotion = post.emotion
+        caption = post.caption
+        location = post.location ?? ""
+        isPrivate = post.isPrivate
+    }
     
     var isFormValid: Bool {
         !amount.isEmpty &&
@@ -43,33 +67,67 @@ class CreatePostViewModel: ObservableObject {
         isPosting = true
         errorMessage = nil
         
-        let request = CreatePostRequest(
-            amount: amountValue,
-            categoryId: selectedCategory.id,
-            merchantName: merchantName.trimmingCharacters(in: .whitespacesAndNewlines),
-            description: description.trimmingCharacters(in: .whitespacesAndNewlines),
-            emotion: selectedEmotion,
-            caption: caption.trimmingCharacters(in: .whitespacesAndNewlines),
-            location: location.isEmpty ? nil : location.trimmingCharacters(in: .whitespacesAndNewlines),
-            isPrivate: isPrivate
-        )
-        
-        dataService.createPost(request)
-            .receive(on: DispatchQueue.main)
-            .sink(
-                receiveCompletion: { [weak self] completion in
-                    self?.isPosting = false
-                    
-                    if case .failure(let error) = completion {
-                        self?.errorMessage = error.localizedDescription
-                    }
-                },
-                receiveValue: { [weak self] _ in
-                    self?.showingSuccessAlert = true
-                    self?.resetForm()
-                }
+        if isEditMode {
+            // Edit existing post
+            guard let editingPost = editingPost else { return }
+            
+            let updateRequest = UpdatePostRequest(
+                postId: editingPost.id,
+                amount: amountValue,
+                categoryId: selectedCategory.id,
+                merchantName: merchantName.trimmingCharacters(in: .whitespacesAndNewlines),
+                description: description.trimmingCharacters(in: .whitespacesAndNewlines),
+                emotion: selectedEmotion,
+                caption: caption.trimmingCharacters(in: .whitespacesAndNewlines),
+                location: location.isEmpty ? nil : location.trimmingCharacters(in: .whitespacesAndNewlines),
+                isPrivate: isPrivate
             )
-            .store(in: &cancellables)
+            
+            dataService.updatePost(updateRequest)
+                .receive(on: DispatchQueue.main)
+                .sink(
+                    receiveCompletion: { [weak self] completion in
+                        self?.isPosting = false
+                        
+                        if case .failure(let error) = completion {
+                            self?.errorMessage = error.localizedDescription
+                        }
+                    },
+                    receiveValue: { [weak self] _ in
+                        self?.showingSuccessAlert = true
+                    }
+                )
+                .store(in: &cancellables)
+        } else {
+            // Create new post
+            let request = CreatePostRequest(
+                amount: amountValue,
+                categoryId: selectedCategory.id,
+                merchantName: merchantName.trimmingCharacters(in: .whitespacesAndNewlines),
+                description: description.trimmingCharacters(in: .whitespacesAndNewlines),
+                emotion: selectedEmotion,
+                caption: caption.trimmingCharacters(in: .whitespacesAndNewlines),
+                location: location.isEmpty ? nil : location.trimmingCharacters(in: .whitespacesAndNewlines),
+                isPrivate: isPrivate
+            )
+            
+            dataService.createPost(request)
+                .receive(on: DispatchQueue.main)
+                .sink(
+                    receiveCompletion: { [weak self] completion in
+                        self?.isPosting = false
+                        
+                        if case .failure(let error) = completion {
+                            self?.errorMessage = error.localizedDescription
+                        }
+                    },
+                    receiveValue: { [weak self] _ in
+                        self?.showingSuccessAlert = true
+                        self?.resetForm()
+                    }
+                )
+                .store(in: &cancellables)
+        }
     }
     
     private func resetForm() {
