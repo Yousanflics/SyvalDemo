@@ -278,7 +278,18 @@ if comment.replies.count > 1 && !isExpanded {
 ## Interface Screenshots
 
 *Note: Actual interface screenshots showcasing main app features will be displayed here*
+### FeedView
+![feed](./DemoPics/feedview.jpg)
 
+### PostDetailView
+![postdetail](./DemoPics/detailview.jpg)
+
+### DisplayVideo
+
+<!-- mp4 format -->
+<video id="video" controls="" preload="none" poster="cover">
+      <source id="mp4" src="./DemoPics/video.MP4" type="video/mp4">
+</videos>
 
 ## License
 
@@ -293,4 +304,3 @@ MIT License - See [LICENSE](LICENSE) file for details
 ---
   
 **Last Updated**: January 2025  
-**Version**: v1.2.0 - Post Detail & Comment System Update 
