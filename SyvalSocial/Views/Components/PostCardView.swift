@@ -160,6 +160,62 @@ struct SocialActionsView: View {
     }
 }
 
+// MARK: - Simple Comment Preview View (for PostCardView)
+struct SimpleCommentPreview: View {
+    let comment: Comment
+    
+    var body: some View {
+        HStack(alignment: .top, spacing: 8) {
+            // User avatar
+            Text(comment.user.avatarEmoji)
+                .font(.caption)
+                .frame(width: 28, height: 28)
+                .background(
+                    Circle()
+                        .fill(Color(.systemGray6))
+                )
+            
+            VStack(alignment: .leading, spacing: 4) {
+                // Comment header
+                HStack {
+                    Text(comment.user.displayName)
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                    
+                    Text(comment.timeAgo)
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    // Like button
+                    HStack(spacing: 4) {
+                        Image(systemName: comment.isLikedByCurrentUser ? "heart.fill" : "heart")
+                            .font(.system(size: 16))
+                            .fontWeight(.medium)
+                            .foregroundColor(comment.isLikedByCurrentUser ? .red : .gray)
+                        
+                        if comment.likesCount > 0 {
+                            Text("\(comment.likesCount)")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .padding(.leading, 4)
+                }
+                
+                // Comment content
+                Text(comment.content)
+                    .font(.caption)
+                    .lineLimit(nil)
+            }
+            
+            Spacer()
+        }
+    }
+}
+
 // MARK: - Comment Row View
 struct CommentRowView: View {
     let comment: Comment
@@ -260,9 +316,7 @@ struct PostCardView: View {
     let feedViewModel: FeedViewModel
     
     @State private var comments: [Comment] = []
-    @State private var showingAllComments = false
     @State private var isLoadingComments = false
-    @State private var commentText = ""
     @State private var showingShareSheet = false
     @State private var showingActionSheet = false
     @State private var showingEditPost = false
@@ -411,14 +465,8 @@ struct PostCardView: View {
                 sharesCount: post.sharesCount,
                 onLike: onLike,
                 onComment: {
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        showingAllComments.toggle()
-                    }
-                    
-                    if showingAllComments && comments.isEmpty {
-                        loadComments()
-                    }
-                    
+                    // Navigate to detail view for commenting
+                    showingPostDetail = true
                     onComment()
                 },
                 onShare: {
@@ -434,64 +482,15 @@ struct PostCardView: View {
                 print("📤 Share sheet presented")
             }
             
-            // Comments section
-            if showingAllComments {
-                VStack(alignment: .leading, spacing: 12) {
+            // Preview of latest comment (always show if available)
+            if post.commentsCount > 0 && !comments.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
                     Divider()
                     
-                    // Add comment field
-                    HStack {
-                        TextField("Add a comment...", text: $commentText)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        
-                        Button("Post") {
-                            if !commentText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                feedViewModel.addComment(to: post, content: commentText)
-                                commentText = ""
-                                // Reload comments after adding
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    loadComments()
-                                }
-                            }
-                        }
-                        .disabled(commentText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    if let latestComment = comments.first {
+                        SimpleCommentPreview(comment: latestComment)
+                            .opacity(0.9)
                     }
-                    
-                    // Comments list
-                    if isLoadingComments {
-                        HStack {
-                            ProgressView()
-                                .scaleEffect(0.8)
-                            Text("Loading comments...")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                        .padding(.vertical, 8)
-                    } else if comments.isEmpty {
-                        HStack {
-                            Image(systemName: "bubble.left")
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.secondary)
-                            Text("No comments yet")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                        .padding(.vertical, 8)
-                    } else {
-                        LazyVStack(alignment: .leading, spacing: 12) {
-                            ForEach(comments) { comment in
-                                CommentRowView(comment: comment, isReply: false)
-                            }
-                        }
-                    }
-                }
-                .transition(.opacity.combined(with: .move(edge: .top)))
-            } else if post.commentsCount > 0 && !comments.isEmpty {
-                // Preview of latest comment
-                if let latestComment = comments.first {
-                    CommentRowView(comment: latestComment, isReply: false)
-                        .opacity(0.8)
                 }
             }
         }
@@ -501,21 +500,17 @@ struct PostCardView: View {
                 .fill(Color(.systemBackground))
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
-        .contentShape(Rectangle()) // Make entire card tappable
         .onTapGesture {
             // Hide privacy tooltip when tapping elsewhere
             if showingPrivacyTooltip {
                 withAnimation(.easeInOut(duration: 0.2)) {
                     showingPrivacyTooltip = false
                 }
-            } else {
-                // Navigate to detail view when tapping anywhere on the card
-                showingPostDetail = true
             }
         }
         .onAppear {
-            // Load preview comments when card appears
-            if !comments.isEmpty == false && post.commentsCount > 0 {
+            // Always load comments when card appears to show latest comment preview
+            if post.commentsCount > 0 && comments.isEmpty {
                 loadComments()
             }
         }
