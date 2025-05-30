@@ -1,304 +1,296 @@
-# Syval Social - 社交消费分享平台
+# SyvalSocial Demo - Social Spending Sharing Platform
 
-一个基于SwiftUI构建的社交消费分享应用，让用户能够分享购买体验并与朋友建立情感连接。
+> 🎯 **Latest Update**: Completed 
+> 1. post card feed page
+> 2. share post page, 
+> 3. post detail page, 
+> 4. comment system optimization, 
+> 5. mock backend service
+> 6. text truncation features and other core UI/UX improvements
 
-## 🎯 设计理念
+A modern social spending sharing app built with **SwiftUI**, enabling users to share purchasing **experiences**, express spending emotions, and build deep **connections** with friends.
 
-### 核心价值主张
-- **情感驱动的社交**: 不仅分享消费数据，更重要的是分享消费背后的情感体验
-- **社交验证与支持**: 通过朋友的反馈获得消费决策的社交验证，减少消费焦虑
-- **透明消费文化**: 打破消费羞耻，建立健康的金钱观念讨论环境
-- **个性化洞察**: 基于社交数据提供个性化的消费建议
+## Key Features
 
-### 用户参与度提升策略
+### Core Functions
+- **Spending Post Sharing (basic)**: 
+  - Publish spending experiences with amount, merchant, category, and emotions
+- **Smart Comment System (advance)**: 
+  - Multi-level replies with expand/collapse functionality
+- **Social Interactions (advance)**: 
+  - Like, comment, and share features
+- **Detail Page Browsing (advance)**: 
+  - Complete post details and comment section experience
+- **Emotional Expression (advance)**: 
+  - Track 6 different spending emotional states
 
-#### 1. **即时情感反馈**
-- 每次消费都可以记录情感状态
-- 朋友可以通过点赞、评论给予支持
-- 创建正向的消费分享循环
+### User Engagement Enhancements
+- **Smart Text Truncation**: 
+  - PostCardView automatically truncates text over 3 lines with "more" button
+- **Seamless Navigation**: 
+  - Tap card button to navigate to detail page
+- **Optimized Comment System**: 
+  - Card shows only latest comment preview
+  - Detail page supports full comment expand/collapse
+  - Smart "View X replies" button based on reply count
+- **Intuitive Layout**: 
+  - Modern design language card style feed list with smooth micro-interactions
 
-#### 2. **社交发现机制**
-- 发现朋友的消费趋势和偏好
-- 获得可信的产品推荐
-- 建立基于共同兴趣的社交连接
+## Latest Feature Updates
 
-#### 3. **游戏化元素**
-- 消费挑战和目标设定
-- 成就系统（如"理性消费达人"）
-- 朋友间的良性竞争
+### PostCardView
+- ✅ **Text Truncation & "More" Button**: Auto-truncate after 3 lines with blue highlighted "more" button
+- ✅ **Card Tap Navigation**: Entire card area supports tap to navigate to detail page
+- ✅ **Comment Preview**: Shows only latest comment to keep interface clean
+- ✅ **Heart Icon Optimization**: Adjusted comment section heart icon size and position
 
-## 🏗️ 技术架构
+### PostDetailView Detail Page
+- ✅ **Complete Content Display**: Shows full post title and content
+- ✅ **Top Navigation Bar**: Back button, author avatar, Follow/Share buttons
+- ✅ **Comment Section Optimization**: 
+  - Default shows first sub-comment
+  - Shows "View X replies" button when more than 1 sub-comment
+  - Supports comment like functionality
+- ✅ **Bottom Comment Panel**: Fixed at screen bottom with Like and Comment interactions
 
-### 架构模式
-- **MVVM (Model-View-ViewModel)**: 清晰的数据流和状态管理
-- **响应式编程**: 使用Combine框架实现数据绑定
-- **组件化设计**: 可复用的UI组件和模块化架构
+### Comment System Logic
+- ✅ **Smart Reply Expansion**: 
+  - 0 replies: No additional content shown
+  - 1 reply: Directly displayed, no expand button
+  - 2+ replies: Shows first reply + expand button (displays remaining count)
+- ✅ **Data Consistency**: PostCardView and PostDetailView use same comment data source
+- ✅ **Layout Optimization**: Expand button position adjustment, indentation optimization
 
-### 核心组件
+## Design Tradeoffs & Decisions
 
-#### 1. 数据层 (Models)
+### UI/UX Tradeoffs
+- **Text Truncation vs Full Content**
+  - ✅ **Chosen**: 3-line truncation with "more" button
+  - ❌ **Alternative**: Show full text always
+  - **Reasoning**: Improves feed scan-ability and reduces cognitive load, despite requiring extra tap for full content
+
+- **Comment Preview vs Complete Comments**
+  - ✅ **Chosen**: Show only latest comment in feed
+  - ❌ **Alternative**: Show all comments in feed
+  - **Reasoning**: Keeps feed focused on posts while encouraging detail page visits for deeper engagement
+
+### Technical Tradeoffs
+- **Mock Data vs Real Backend**
+  - ✅ **Chosen**: MockDataService for initial development
+  - ❌ **Alternative**: Implement real API from start
+  - **Reasoning**: Faster prototyping and UI iteration, with planned backend integration in Phase 2
+
+- **MVVM vs Other Architectures**
+  - ✅ **Chosen**: MVVM with Combine
+  - ❌ **Alternative**: Redux-like state management
+  - **Reasoning**: Better alignment with SwiftUI patterns and simpler debugging
+
+### Performance Tradeoffs
+- **Memory vs User Experience**
+  - ✅ **Chosen**: Cache comment trees in memory
+  - ❌ **Alternative**: Fetch comments on demand
+  - **Reasoning**: Smoother expand/collapse animations at cost of memory usage
+
+### User Engagement Tradeoffs
+- **Simplicity vs Feature Richness**
+  - ✅ **Chosen**: Limited initial feature set with polished experience
+  - ❌ **Alternative**: Feature-heavy initial release
+  - **Reasoning**: Lower learning curve and higher completion rates
+
+
+## Technical Architecture
+
+### Tech Stack
+- **Frontend Framework**: SwiftUI (iOS 16.0+)
+- **State Management**: Combine + MVVM Architecture
+- **Data Processing**: MockDataService simulating backend API
+- **UI Components**: Modular reusable component design
+
+### Project Structure
+```
+SyvalSocial/
+├──  Models/
+│   ├── SpendingPost.swift      # Spending post data model
+│   └── Notification.swift     # Notification data model
+├──  Services/
+│   └── MockDataService.swift  # Mock data service
+├──  ViewModels/
+│   └── FeedViewModel.swift    # Feed view model
+├──  Views/
+│   ├── FeedView.swift         # Main feed page
+│   ├── CreatePostView.swift   # Create post page
+│   ├── PostDetailView.swift   # Post detail page
+│   ├── NotificationCenterView.swift # Notification center
+│   └──  Components/
+│       └── PostCardView.swift # Post card component
+└──  Assets.xcassets/        # Asset files
+```
+
+### Core Components
+
+#### PostCardView Card Component
 ```swift
-- SpendingPost: 消费动态核心模型
-- User: 用户信息和社交数据
-- EmotionType: 情感状态枚举
-- SpendingCategory: 消费分类系统
+struct PostCardView: View {
+    // Supports text truncation and navigation
+    // Smart comment preview
+    // Complete social interaction features
+}
 ```
 
-#### 2. 服务层 (Services)
+#### PostDetailView Detail Page
 ```swift
-- MockDataService: 模拟后端API服务
-  - 异步数据获取
-  - 社交互动处理
-  - 实时数据更新
+struct PostDetailView: View {
+    // Complete content display
+    // Multi-level comment system
+    // Bottom interaction panel
+}
 ```
 
-#### 3. 视图模型层 (ViewModels)
+#### TruncatedTextView Text Truncation Component
 ```swift
-- FeedViewModel: 动态流状态管理
-- CreatePostViewModel: 发布表单验证和提交
+struct TruncatedTextView: View {
+    // Auto-detect text length
+    // Smart "more" button display
+    // Navigation callback support
+}
 ```
 
-#### 4. 视图层 (Views)
-```swift
-- FeedView: 主要动态流界面
-- CreatePostView: 发布消费动态界面
-- PostCardView: 动态卡片组件
-```
+## Design System
 
-## 🎨 UI/UX 设计亮点
+### Color System
+- **Category Colors**: Each spending category has unique theme colors
+- **Emotion Colors**: Visual expressions for different emotional states
+- **Interaction Colors**: Unified like red, link blue, etc.
 
-### 视觉设计
-- **现代化设计语言**: 使用圆角、阴影、渐变营造现代感
-- **情感色彩系统**: 不同消费类别使用独特的品牌色彩
-- **微交互动画**: 点赞、选择等操作有流畅的动画反馈
+### Animation System
+- **Micro-interactions**: Smooth animations for likes, expand/collapse
+- **Transition Animations**: Natural transitions between pages
+- **Feedback Animations**: Instant visual feedback for user actions
 
-### 用户体验
-- **直观的情感表达**: 通过emoji快速表达消费感受
-- **无障碍操作**: 大按钮、清晰的视觉层次
-- **智能表单验证**: 实时反馈，减少用户错误
+## Data Models
 
-## 🚀 核心功能
-
-### 1. 消费动态分享
-- **多维度信息**: 金额、商家、类别、情感、描述
-- **隐私控制**: 私密发布选项
-- **位置信息**: 可选的地理位置标记
-
-### 2. 社交互动
-- **点赞系统**: 表达支持和认同
-- **评论功能**: 深度交流和建议
-- **分享机制**: 扩大内容传播
-
-### 3. 情感追踪
-- **6种情感状态**: 开心、中性、难过、兴奋、后悔、自豪
-- **长期情感分析**: 追踪用户的消费情感变化
-- **个性化建议**: 基于情感数据提供建议
-
-## 💡 创新特性
-
-### 1. **消费情绪仪表板**
-```
-计划功能：追踪用户长期的消费情绪变化
-- 每月情绪趋势图
-- 不同类别的情绪分布
-- 与朋友的情绪对比
-```
-
-### 2. **智能消费建议**
-```
-基于用户的消费历史和情感反馈：
-- "您通常在购买电子产品后感到后悔，建议多考虑一天"
-- "您的朋友在这家餐厅都有很好的体验"
-```
-
-### 3. **匿名分享模式**
-```
-对于敏感消费的隐私保护：
-- 隐藏具体金额，只显示情感
-- 匿名发布大额消费
-- 朋友间的匿名建议系统
-```
-
-## 🛠️ 技术实现细节
-
-### 数据模型设计
+### SpendingPost Spending Post
 ```swift
 struct SpendingPost {
-    // 基础信息
+    let id: UUID
+    let user: User
     let amount: Double
     let merchantName: String
     let category: SpendingCategory
-    
-    // 情感信息
+    let description: String
     let emotion: EmotionType
     let caption: String
-    
-    // 社交指标
     var likesCount: Int
     var commentsCount: Int
+    var sharesCount: Int
+    let isPrivate: Bool
+    let location: String?
+    let timestamp: Date
+}
+```
+
+### Comment Comment System
+```swift
+struct Comment {
+    let id: UUID
+    let user: User
+    let content: String
+    let timestamp: Date
+    var likesCount: Int
     var isLikedByCurrentUser: Bool
+    var replies: [Comment]
 }
 ```
 
-### 状态管理
-使用`@Published`属性包装器实现响应式状态更新：
+
+## Development Progress Dashboard
+
+### Completed Features (Phase 1)
+- [x] Basic spending post publishing
+- [x] Feed browsing
+- [x] Social interactions (like, comment, share)
+- [x] Emotional state recording
+- [x] PostCardView text truncation optimization
+- [x] PostDetailView detail page
+- [x] Comment system optimization
+- [x] Navigation flow completion
+- [x] UI/UX detail optimization
+
+### Under Development (Phase 2)
+- [ ] User follow system
+- [ ] Push notifications
+- [ ] Search functionality
+- [ ] User profile page
+
+### Planned Features (Phase 3)
+- [ ] AI spending suggestions
+- [ ] Emotion trend analysis
+- [ ] Spending challenge activities
+- [ ] Third-party integrations
+
+## Product Vision
+
+### Core Values
+1. **Emotion-Driven**: Not just sharing spending data, but the emotional experiences behind spending
+2. **Social Validation**: Get spending decision support through friend feedback
+3. **Transparent Culture**: Build healthy money conversation environment
+4. **Personalized Insights**: Provide personalized suggestions based on social data
+
+### User Experience Goals
+- **Simple & Intuitive**: Easy operation flow, clear interface
+- **Emotional Resonance**: Support rich emotional expressions
+- **Social Interaction**: Encourage meaningful exchanges
+- **Privacy & Security**: Flexible privacy control options
+
+## Technical Implementation Challenges
+
+### Reactive Architecture
 ```swift
-class FeedViewModel: ObservableObject {
-    @Published var posts: [SpendingPost] = []
-    @Published var isLoading = false
-    
-    // 自动同步数据服务的更新
-    dataService.$posts
-        .assign(to: \.posts, on: self)
-        .store(in: &cancellables)
-}
+// Data flow management using Combine
+@Published var posts: [SpendingPost] = []
+@Published var comments: [Comment] = []
+
+// Automatic UI updates
+dataService.$posts
+    .assign(to: \.posts, on: self)
+    .store(in: &cancellables)
 ```
 
-### 异步数据处理
-使用Combine框架处理异步操作：
+### Component Design
 ```swift
-func toggleLike(postId: UUID) -> AnyPublisher<Bool, Error> {
-    return Just(())
-        .delay(for: .milliseconds(200), scheduler: DispatchQueue.main)
-        .handleEvents(receiveOutput: { [weak self] _ in
-            // 更新本地状态
-            self?.updateLikeStatus(postId: postId)
-        })
-        .eraseToAnyPublisher()
+// Reusable UI components
+TruncatedTextView(text: caption, lineLimit: 3) {
+    // Navigate to detail page
+    showingPostDetail = true
 }
 ```
 
-## 📊 预期的API Schema变更
-
-### 新增数据表
-```sql
--- 消费动态表
-CREATE TABLE spending_posts (
-    id UUID PRIMARY KEY,
-    user_id UUID REFERENCES users(id),
-    amount DECIMAL(10,2),
-    category_id UUID REFERENCES categories(id),
-    merchant_name VARCHAR(255),
-    description TEXT,
-    emotion_type VARCHAR(50),
-    caption TEXT,
-    location VARCHAR(255),
-    is_private BOOLEAN DEFAULT false,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- 社交互动表
-CREATE TABLE post_interactions (
-    id UUID PRIMARY KEY,
-    post_id UUID REFERENCES spending_posts(id),
-    user_id UUID REFERENCES users(id),
-    interaction_type VARCHAR(50), -- 'like', 'comment', 'share'
-    content TEXT, -- for comments
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- 用户关系表
-CREATE TABLE user_relationships (
-    id UUID PRIMARY KEY,
-    follower_id UUID REFERENCES users(id),
-    following_id UUID REFERENCES users(id),
-    status VARCHAR(50) DEFAULT 'active',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+### Smart State Management
+```swift
+// Comment expansion logic
+if comment.replies.count > 1 && !isExpanded {
+    Button("View \(comment.replies.count - 1) replies") {
+        onToggleExpand()
+    }
+}
 ```
 
-### API端点设计
-```
-POST /api/posts - 创建消费动态
-GET /api/posts/feed - 获取动态流
-POST /api/posts/{id}/like - 点赞/取消点赞
-POST /api/posts/{id}/comments - 添加评论
-GET /api/posts/{id}/comments - 获取评论列表
-POST /api/posts/{id}/share - 分享动态
-```
+## Interface Screenshots
 
-## 🎯 用户参与度指标
+*Note: Actual interface screenshots showcasing main app features will be displayed here*
 
-### 关键指标 (KPIs)
-- **日活跃用户 (DAU)**: 每日打开应用的用户数
-- **发布频率**: 平均每用户每周发布的动态数
-- **互动率**: 动态的平均点赞、评论、分享数
-- **留存率**: 7天、30天用户留存率
-- **会话时长**: 用户平均停留时间
 
-### 参与度提升机制
-- **推送通知**: 朋友发布新动态时的智能提醒
-- **每周总结**: 个人消费情绪周报
-- **朋友推荐**: 基于消费偏好的朋友推荐
-- **趋势发现**: "本周朋友们都在买什么"
+## License
 
-## 🔮 未来发展路线
+MIT License - See [LICENSE](LICENSE) file for details
 
-### Phase 1: 基础社交功能 (已完成)
-- [x] 消费动态发布和浏览
-- [x] 基础社交互动 (点赞、评论)
-- [x] 情感状态记录
+## Contact
 
-### Phase 2: 智能化功能
-- [ ] 基于AI的消费建议
-- [ ] 情绪趋势分析
-- [ ] 个性化内容推荐
+- **Autho Githubr**: yousanflics
+- **Email**: yousanflics@gmail.com
 
-### Phase 3: 社区功能
-- [ ] 消费挑战和活动
-- [ ] 专题讨论组
-- [ ] 达人认证系统
-
-### Phase 4: 生态整合
-- [ ] 与支付平台集成
-- [ ] 商家合作推荐
-- [ ] 第三方应用API
-
-## 🔧 开发环境配置
-
-### 系统要求
-- iOS 16.0+
-- Xcode 14.0+
-- Swift 5.7+
-
-### 项目结构
-```
-SyvalSocial/
-├── Models/           # 数据模型
-├── Services/         # 网络和数据服务
-├── ViewModels/       # 视图模型
-├── Views/           # SwiftUI视图
-│   ├── Components/  # 可复用组件
-│   └── Screens/     # 主要页面
-└── Assets.xcassets/ # 资源文件
-```
-
-### 运行项目
-1. 克隆仓库: `git clone [repository-url]`
-2. 打开 `SyvalSocial.xcodeproj`
-3. 选择模拟器或真机
-4. 点击运行 (⌘+R)
-
-## 📝 设计权衡说明
-
-### 1. 简化 vs 功能完整性
-**选择**: 优先核心功能的完整实现
-**原因**: 确保用户体验流畅，避免功能过多导致的复杂性
-
-### 2. 实时 vs 批量更新
-**选择**: 实时更新社交互动
-**原因**: 提升用户参与感，增加应用粘性
-
-### 3. 隐私 vs 社交性
-**选择**: 提供灵活的隐私控制
-**原因**: 尊重用户隐私，同时保持社交功能的价值
-
-### 4. 原生 vs 跨平台
-**选择**: iOS原生开发
-**原因**: 更好的性能和用户体验，充分利用iOS生态
 
 ---
-
-**作者**: [Your Name]  
-**最后更新**: 2025年1月  
-**版本**: v1.0.0 
+  
+**Last Updated**: January 2025  
+**Version**: v1.2.0 - Post Detail & Comment System Update 
