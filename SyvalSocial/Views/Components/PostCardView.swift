@@ -324,6 +324,13 @@ struct PostCardView: View {
     @State private var showingPostDetail = false
     @State private var cancellables = Set<AnyCancellable>()
     
+    // Check if post belongs to current user
+    private var isCurrentUserPost: Bool {
+        // TODO: Replace with actual current user check
+        // For now, assuming current user has username "currentuser" or ID comparison
+        return post.user.username == "young027" // This should be replaced with actual current user logic
+    }
+    
     // 分享内容
     private var shareItems: [Any] {
         return ShareHelper.generateShareContent(for: post)
@@ -401,60 +408,67 @@ struct PostCardView: View {
                 }
             }
             
-            // Spending info card with very light category color background
-            HStack {
-                // Category icon with medium category color
-                Text(post.category.emoji)
-                    .font(.title2)
-                    .frame(width: 40, height: 40)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(post.category.color.lighter(by: 0.4))
-                    )
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Text(post.merchantName)
-                            .font(.headline)
-                            .fontWeight(.medium)
-                        
-                        Spacer()
-                        
-                        Text(post.formattedAmount)
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .foregroundColor(post.category.color.darker())
-                    }
+            // Main content area - tappable to navigate to detail
+            VStack(alignment: .leading, spacing: 16) {
+                // Spending info card with very light category color background
+                HStack {
+                    // Category icon with medium category color
+                    Text(post.category.emoji)
+                        .font(.title2)
+                        .frame(width: 40, height: 40)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(post.category.color.lighter(by: 0.4))
+                        )
                     
-                    HStack {
-                        Text(post.description)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text(post.merchantName)
+                                .font(.headline)
+                                .fontWeight(.medium)
+                            
+                            Spacer()
+                            
+                            Text(post.formattedAmount)
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .foregroundColor(post.category.color.darker())
+                        }
                         
-                        Spacer()
-                        
-                        // Emotion
-                        HStack(spacing: 4) {
-                            Text(post.emotion.rawValue)
-                                .font(.caption)
-                            Text(post.emotion.description)
-                                .font(.caption)
+                        HStack {
+                            Text(post.description)
+                                .font(.subheadline)
                                 .foregroundColor(.secondary)
+                            
+                            Spacer()
+                            
+                            // Emotion
+                            HStack(spacing: 4) {
+                                Text(post.emotion.rawValue)
+                                    .font(.caption)
+                                Text(post.emotion.description)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                 }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(post.category.color.veryLight(by: 0.15))
+                )
+                
+                // Caption
+                if !post.caption.isEmpty {
+                    TruncatedTextView(text: post.caption, lineLimit: 3, onMoreTapped: {
+                        showingPostDetail = true
+                    })
+                }
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(post.category.color.veryLight(by: 0.15))
-            )
-            
-            // Caption
-            if !post.caption.isEmpty {
-                TruncatedTextView(text: post.caption, lineLimit: 3, onMoreTapped: {
-                    showingPostDetail = true
-                })
+            .contentShape(Rectangle()) // Make this content area tappable
+            .onTapGesture {
+                showingPostDetail = true
             }
             
             // Social actions
@@ -515,14 +529,29 @@ struct PostCardView: View {
             }
         }
         .confirmationDialog("Post Options", isPresented: $showingActionSheet, titleVisibility: .visible) {
-            Button("Edit Post") {
-                showingEditPost = true
-            }
-            
-            Button("Delete Post", role: .destructive) {
-                // Handle delete post
-                print("Delete post: \(post.id)")
-                feedViewModel.deletePost(post)
+            // Check if post belongs to current user
+            if isCurrentUserPost {
+                Button("Edit Post") {
+                    showingEditPost = true
+                }
+                
+                Button("Delete Post", role: .destructive) {
+                    // Handle delete post
+                    print("Delete post: \(post.id)")
+                    feedViewModel.deletePost(post)
+                }
+            } else {
+                Button("Block User") {
+                    // Handle block user
+                    print("Block user: \(post.user.username)")
+                    // TODO: Implement block user functionality
+                }
+                
+                Button("Report Post", role: .destructive) {
+                    // Handle report post
+                    print("Report post: \(post.id)")
+                    // TODO: Implement report post functionality
+                }
             }
             
             Button("Cancel", role: .cancel) {
