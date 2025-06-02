@@ -517,14 +517,6 @@ struct PostCardView: View {
                 .fill(Color(.secondarySystemBackground))
                 .shadow(color: .adaptiveShadow, radius: 4, x: 0, y: 2)
         )
-        .onTapGesture {
-            // Hide privacy tooltip when tapping elsewhere
-            if showingPrivacyTooltip {
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    showingPrivacyTooltip = false
-                }
-            }
-        }
         .onAppear {
             // Always load comments when card appears to show latest comment preview
             if post.commentsCount > 0 && comments.isEmpty {
@@ -573,6 +565,14 @@ struct PostCardView: View {
             }
             .hidden()
         )
+        .onTapGesture {
+            // Hide privacy tooltip when tapping elsewhere
+            if showingPrivacyTooltip {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    showingPrivacyTooltip = false
+                }
+            }
+        }
     }
     
     private func loadComments() {

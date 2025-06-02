@@ -34,7 +34,7 @@ struct PostDetailView: View {
                     VStack(alignment: .leading) {//, spacing: 16
                         // Post content
                         postContentView
-                            .padding(.top, 20)
+                            .padding(.top, 16)
                         
                         // Divider
 //                        Divider()
