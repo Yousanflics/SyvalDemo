@@ -38,6 +38,7 @@ class MockDataService: ObservableObject {
                 timestamp: Calendar.current.date(byAdding: .hour, value: -2, to: Date()) ?? Date(),
                 location: "Chicago, IL",
                 isPrivate: false,
+                images: ["https://picsum.photos/800/600?random=1"],
                 editedAt: nil,
                 likesCount: 1,
                 commentsCount: 0,
@@ -55,6 +56,11 @@ class MockDataService: ObservableObject {
                 timestamp: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date(),
                 location: nil,
                 isPrivate: false,
+                images: [
+                    "https://picsum.photos/800/600?random=2",
+                    "https://picsum.photos/800/600?random=3",
+                    "https://picsum.photos/800/600?random=4"
+                ],
                 editedAt: nil,
                 likesCount: 2,
                 commentsCount: 1,
@@ -72,6 +78,7 @@ class MockDataService: ObservableObject {
                 timestamp: Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date(),
                 location: "Fort Wayne, IN",
                 isPrivate: true,
+                images: nil,
                 editedAt: nil,
                 likesCount: 1,
                 commentsCount: 1,
@@ -89,6 +96,7 @@ class MockDataService: ObservableObject {
                 timestamp: Calendar.current.date(byAdding: .minute, value: -45, to: Date()) ?? Date(),
                 location: "Seattle, WA",
                 isPrivate: false,
+                images: ["https://picsum.photos/800/600?random=5"],
                 editedAt: Calendar.current.date(byAdding: .minute, value: -10, to: Date()),
                 likesCount: 5,
                 commentsCount: 2,
@@ -106,6 +114,10 @@ class MockDataService: ObservableObject {
                 timestamp: Calendar.current.date(byAdding: .hour, value: -3, to: Date()) ?? Date(),
                 location: "New York, NY",
                 isPrivate: false,
+                images: [
+                    "https://picsum.photos/800/600?random=6",
+                    "https://picsum.photos/800/600?random=7"
+                ],
                 editedAt: nil,
                 likesCount: 8,
                 commentsCount: 3,
@@ -141,6 +153,7 @@ class MockDataService: ObservableObject {
             timestamp: Date(),
             location: request.location,
             isPrivate: request.isPrivate,
+            images: request.images,
             editedAt: nil, // New posts have no edit time
             likesCount: 0,
             commentsCount: 0,
@@ -243,6 +256,7 @@ class MockDataService: ObservableObject {
                     timestamp: existingPost.timestamp, // Keep original timestamp
                     location: request.location,
                     isPrivate: request.isPrivate,
+                    images: request.images,
                     editedAt: Date(), // Set edited timestamp
                     likesCount: existingPost.likesCount, // Preserve social metrics
                     commentsCount: existingPost.commentsCount,

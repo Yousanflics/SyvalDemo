@@ -4,24 +4,26 @@ struct CreatePostView: View {
     @StateObject private var viewModel: CreatePostViewModel
     @Environment(\.dismiss) private var dismiss
     
-    // Support both create and edit modes
-    init(editingPost: SpendingPost? = nil) {
-        if let editingPost = editingPost {
-            _viewModel = StateObject(wrappedValue: CreatePostViewModel(editingPost: editingPost))
-        } else {
-            _viewModel = StateObject(wrappedValue: CreatePostViewModel())
-        }
+    // Default initializer for create mode
+    init() {
+        _viewModel = StateObject(wrappedValue: CreatePostViewModel())
+    }
+    
+    // Initializer for edit mode
+    init(editingPost: SpendingPost) {
+        _viewModel = StateObject(wrappedValue: CreatePostViewModel(editingPost: editingPost))
     }
     
     var body: some View {
         NavigationView {
             Form {
                 // Amount section
-                Section("How much did you spend?") {
+                Section("Amount") {
                     HStack {
                         Text("$")
                             .font(.title2)
                             .fontWeight(.medium)
+                            .foregroundColor(.secondary)
                         
                         TextField("0.00", text: $viewModel.amount)
                             .keyboardType(.decimalPad)
@@ -96,6 +98,66 @@ struct CreatePostView: View {
                         .textFieldStyle(PlainTextFieldStyle())
                 }
                 
+                // Images section
+                Section("Add Photos (optional)") {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Button(action: {
+                            viewModel.showingImagePicker = true
+                        }) {
+                            HStack {
+                                Image(systemName: "photo.badge.plus")
+                                    .font(.title3)
+                                    .foregroundColor(.blue)
+                                
+                                Text("Add Photos")
+                                    .font(.body)
+                                    .foregroundColor(.blue)
+                                
+                                Spacer()
+                                
+                                if !viewModel.selectedImages.isEmpty {
+                                    Text("\(viewModel.selectedImages.count)/5")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        // Selected images preview
+                        if !viewModel.selectedImages.isEmpty {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 8) {
+                                    ForEach(viewModel.selectedImages.indices, id: \.self) { index in
+                                        ZStack(alignment: .topTrailing) {
+                                            Image(uiImage: viewModel.selectedImages[index])
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 80, height: 80)
+                                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                                            
+                                            Button(action: {
+                                                viewModel.removeImage(at: index)
+                                            }) {
+                                                Image(systemName: "xmark.circle.fill")
+                                                    .font(.caption)
+                                                    .foregroundColor(.white)
+                                                    .background(
+                                                        Circle()
+                                                            .fill(Color.red)
+                                                            .frame(width: 20, height: 20)
+                                                    )
+                                            }
+                                            .offset(x: 8, y: -8)
+                                        }
+                                    }
+                                }
+                                .padding(.horizontal, 4)
+                            }
+                        }
+                    }
+                }
+                
                 // Location section
                 Section("Location (optional)") {
                     HStack {
@@ -130,6 +192,9 @@ struct CreatePostView: View {
                     .disabled(!viewModel.isFormValid || viewModel.isPosting)
                     .fontWeight(.semibold)
                 }
+            }
+            .sheet(isPresented: $viewModel.showingImagePicker) {
+                ImagePicker(selectedImages: $viewModel.selectedImages)
             }
             .overlay {
                 if viewModel.isPosting {

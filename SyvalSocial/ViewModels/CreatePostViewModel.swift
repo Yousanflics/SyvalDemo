@@ -13,6 +13,10 @@ class CreatePostViewModel: ObservableObject {
     @Published var location: String = ""
     @Published var isPrivate: Bool = false
     
+    // Image fields
+    @Published var selectedImages: [UIImage] = []
+    @Published var showingImagePicker = false
+    
     // UI State
     @Published var isPosting = false
     @Published var errorMessage: String?
@@ -43,6 +47,8 @@ class CreatePostViewModel: ObservableObject {
         caption = post.caption
         location = post.location ?? ""
         isPrivate = post.isPrivate
+        // Note: For edit mode, we would need to load existing images
+        // This would typically involve downloading them from URLs
     }
     
     var isFormValid: Bool {
@@ -60,12 +66,22 @@ class CreatePostViewModel: ObservableObject {
         return "$0.00"
     }
     
+    func removeImage(at index: Int) {
+        guard index < selectedImages.count else { return }
+        selectedImages.remove(at: index)
+    }
+    
     func createPost() {
         guard isFormValid else { return }
         guard let amountValue = Double(amount) else { return }
         
         isPosting = true
         errorMessage = nil
+        
+        // For demo purposes, we'll simulate image upload by creating placeholder URLs
+        let imageUrls = selectedImages.enumerated().map { index, _ in
+            "https://picsum.photos/800/600?random=\(UUID().uuidString)"
+        }
         
         if isEditMode {
             // Edit existing post
@@ -80,7 +96,8 @@ class CreatePostViewModel: ObservableObject {
                 emotion: selectedEmotion,
                 caption: caption.trimmingCharacters(in: .whitespacesAndNewlines),
                 location: location.isEmpty ? nil : location.trimmingCharacters(in: .whitespacesAndNewlines),
-                isPrivate: isPrivate
+                isPrivate: isPrivate,
+                images: imageUrls.isEmpty ? nil : imageUrls
             )
             
             dataService.updatePost(updateRequest)
@@ -108,7 +125,8 @@ class CreatePostViewModel: ObservableObject {
                 emotion: selectedEmotion,
                 caption: caption.trimmingCharacters(in: .whitespacesAndNewlines),
                 location: location.isEmpty ? nil : location.trimmingCharacters(in: .whitespacesAndNewlines),
-                isPrivate: isPrivate
+                isPrivate: isPrivate,
+                images: imageUrls.isEmpty ? nil : imageUrls
             )
             
             dataService.createPost(request)
@@ -139,6 +157,7 @@ class CreatePostViewModel: ObservableObject {
         selectedEmotion = .neutral
         isPrivate = false
         selectedCategory = SpendingCategory.categories[0]
+        selectedImages = []
     }
     
     func formatAmountInput() {

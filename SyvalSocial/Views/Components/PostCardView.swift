@@ -459,6 +459,11 @@ struct PostCardView: View {
                         .fill(post.category.color.veryLight(by: 0.15))
                 )
                 
+                // Images preview
+                if let images = post.images, !images.isEmpty {
+                    PostImagePreview(images: images)
+                }
+                
                 // Caption
                 if !post.caption.isEmpty {
                     TruncatedTextView(text: post.caption, lineLimit: 3, onMoreTapped: {

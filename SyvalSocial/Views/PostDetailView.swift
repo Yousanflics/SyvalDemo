@@ -23,6 +23,7 @@ struct PostDetailView: View {
     
     var body: some View {
         ZStack {
+            // set all detailview background color
             Color(.systemGroupedBackground)
                 .ignoresSafeArea()
             
@@ -54,8 +55,8 @@ struct PostDetailView: View {
                 HStack(spacing: 12) {
                     Button(action: { dismiss() }) {
                         Image(systemName: "arrow.left")
-                            .font(.title3)
-                            .fontWeight(.medium)
+                            .font(.callout)
+                            .fontWeight(.light)
                             .foregroundColor(.primary)
                     }
                     
@@ -75,13 +76,6 @@ struct PostDetailView: View {
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack(spacing: 12) {
-                    Button(action: { showingShareSheet = true }) {
-                        Image(systemName: "square.and.arrow.up")
-                            .font(.title3)
-                            .fontWeight(.medium)
-                            .foregroundColor(.primary)
-                    }
-                    
                     Button(action: { toggleFollow() }) {
                         Text("Follow")
                             .font(.caption)
@@ -98,6 +92,13 @@ struct PostDetailView: View {
                                     )
                             )
                     }
+                    
+                    Button(action: { showingShareSheet = true }) {
+                        Image(systemName: "arrowshape.turn.up.right")
+                            .font(.callout)
+                            .fontWeight(.light)
+                            .foregroundColor(.primary)
+                    }
                 }
             }
         }
@@ -109,86 +110,93 @@ struct PostDetailView: View {
     
     private var postContentView: some View {
         VStack(alignment: .leading, spacing: 16) {
-            // Spending info card
-            HStack {
-                Text(post.category.emoji)
-                    .font(.title2)
-                    .frame(width: 40, height: 40)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(post.category.color.lighter(by: 0.4))
-                    )
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Text(post.merchantName)
-                            .font(.headline)
-                            .fontWeight(.medium)
-                        
-                        Spacer()
-                        
-                        Text(post.formattedAmount)
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .foregroundColor(post.category.color.darker())
-                    }
+            VStack(alignment: .leading, spacing: 16) {
+                // Spending info card
+                HStack {
+                    Text(post.category.emoji)
+                        .font(.title2)
+                        .frame(width: 40, height: 40)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(post.category.color.lighter(by: 0.4))
+                        )
                     
-                    HStack {
-                        Text(post.description)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text(post.merchantName)
+                                .font(.headline)
+                                .fontWeight(.medium)
+                            
+                            Spacer()
+                            
+                            Text(post.formattedAmount)
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .foregroundColor(post.category.color.darker())
+                        }
                         
-                        Spacer()
-                        
-                        HStack(spacing: 4) {
-                            Text(post.emotion.rawValue)
-                                .font(.caption)
-                            Text(post.emotion.description)
-                                .font(.caption)
+                        HStack {
+                            Text(post.description)
+                                .font(.subheadline)
                                 .foregroundColor(.secondary)
+                            
+                            Spacer()
+                            
+                            HStack(spacing: 4) {
+                                Text(post.emotion.rawValue)
+                                    .font(.caption)
+                                Text(post.emotion.description)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                 }
-            }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(post.category.color.veryLight(by: 0.15))
-            )
-            
-            // Full caption
-            if !post.caption.isEmpty {
-                Text(post.caption)
-                    .font(.body)
-                    .lineLimit(nil)
-            }
-            
-            // Post metadata
-            HStack {
-                if post.isEdited {
-                    Text("Edited")
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(post.category.color.veryLight(by: 0.15))
+                )
+                
+                // Full caption
+                if !post.caption.isEmpty {
+                    Text(post.caption)
+                        .font(.body)
+                        .lineLimit(nil)
+                }
+                
+                // Post metadata
+                HStack {
+                    if post.isEdited {
+                        Text("Edited")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    Text(post.timeAgo)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    
+                    if let location = post.location {
+                        Label(location, systemImage: "location.fill")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    Spacer()
+                    
+                    Image(systemName: post.isPrivate ? "person.fill" : "globe")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
-                
-                Text(post.timeAgo)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                
-                if let location = post.location {
-                    Label(location, systemImage: "location.fill")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
-                
-                Spacer()
-                
-                Image(systemName: post.isPrivate ? "person.fill" : "globe")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+            }
+            .padding(.horizontal)
+            
+            // Group photos view - full width without horizontal padding
+            if let images = post.images, !images.isEmpty {
+                GroupPhotosView(images: images)
             }
         }
-        .padding(.horizontal)
     }
     
     private var commentsSection: some View {

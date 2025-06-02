@@ -86,6 +86,9 @@ struct SpendingPost: Identifiable, Codable {
     let location: String?
     let isPrivate: Bool
     
+    // Images support
+    let images: [String]? // Array of image URLs or local paths
+    
     // Edit tracking
     var editedAt: Date?
     
@@ -109,6 +112,10 @@ struct SpendingPost: Identifiable, Codable {
     
     var formattedAmount: String {
         return String(format: "$%.2f", amount)
+    }
+    
+    var hasImages: Bool {
+        return images?.isEmpty == false
     }
 }
 
@@ -158,6 +165,7 @@ struct CreatePostRequest: Codable {
     let caption: String
     let location: String?
     let isPrivate: Bool
+    let images: [String]? // Image URLs or paths
 }
 
 struct UpdatePostRequest: Codable {
@@ -170,4 +178,5 @@ struct UpdatePostRequest: Codable {
     let caption: String
     let location: String?
     let isPrivate: Bool
+    let images: [String]? // Image URLs or paths
 } 
