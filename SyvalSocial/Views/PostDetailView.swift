@@ -42,6 +42,7 @@ struct PostDetailView: View {
                         
                         // Comments section
                         commentsSection
+                            .padding(.horizontal, 16)
                     }
                     .padding(.bottom, 80) // Space for bottom panel
                     .contentShape(Rectangle())
@@ -85,8 +86,8 @@ struct PostDetailView: View {
                 HStack(spacing: 12) {
                     Button(action: { toggleFollow() }) {
                         Text("Follow")
-                            .font(.caption)
-                            .fontWeight(.medium)
+                            .font(Font.system(size: 13))
+                            .fontWeight(.bold)
                             .foregroundColor(isFollowing ? .white : .indigo)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)
@@ -110,7 +111,7 @@ struct PostDetailView: View {
             }
         }
         .nativeShareSheet(isPresented: $showingShareSheet, items: ShareHelper.generateShareContent(for: post))
-        .onAppear {
+        .task {
             loadComments()
         }
     }
@@ -250,7 +251,6 @@ struct PostDetailView: View {
                         )
                     }
                 }
-                .padding(.horizontal)
             }
         }
     }
@@ -376,29 +376,28 @@ struct DetailCommentRowView: View {
                 // User avatar
                 Text(comment.user.avatarEmoji)
                     .font(.caption)
-                    .frame(width: 28, height: 28)
+                    .frame(width: 36, height: 36)
                     .background(
                         Circle()
-                            .fill(Color(.systemGray6))
+                            .fill(Color(.systemGray5))
                     )
                 
                 VStack(alignment: .leading, spacing: 4) {
                     // Comment header
                     HStack {
                         Text(comment.user.displayName)
-                            .font(.caption)
+                            .font(Font.system(size: 15, weight: .semibold))
                             .fontWeight(.semibold)
                         
                         Text(comment.timeAgo)
-                            .font(.caption2)
+                            .font(.caption)
                             .foregroundColor(.secondary)
-                        
                         Spacer()
                     }
                     
                     // Comment content
                     Text(comment.content)
-                        .font(.caption)
+                        .font(Font.system(size: 15))
                         .lineLimit(nil)
                 }
                 
