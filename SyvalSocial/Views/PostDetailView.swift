@@ -31,24 +31,25 @@ struct PostDetailView: View {
             VStack(spacing: 0) {
                 // Main content in scroll view
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading) {//, spacing: 16
                         // Post content
                         postContentView
+                            .padding(.top, 20)
                         
                         // Divider
-                        Divider()
-                            .padding(.horizontal)
+//                        Divider()
+//                            .padding(.horizontal)
                         
                         // Comments section
                         commentsSection
                     }
-                    .scrollIndicators(.hidden)
                     .padding(.bottom, 80) // Space for bottom panel
                     .contentShape(Rectangle())
                     .onTapGesture {
                         isCommentFieldFocused = false
                     }
                 }
+                .scrollIndicators(.hidden)
                 
                 // Bottom comment panel
                 bottomCommentPanel
