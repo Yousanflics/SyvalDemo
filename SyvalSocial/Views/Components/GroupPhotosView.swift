@@ -53,15 +53,15 @@ struct GroupPhotosView: View {
                 
                 // Custom page indicator
                 if images.count > 1 {
-                    HStack(spacing: 8) {
+                    HStack(spacing: 4) {
                         ForEach(images.indices, id: \.self) { index in
                             Circle()
                                 .fill(currentIndex == index ? Color.indigo : Color.gray.opacity(0.4))
-                                .frame(width: 8, height: 8)
+                                .frame(width: 5, height: 5)
                                 .animation(.easeInOut(duration: 0.2), value: currentIndex)
                         }
                     }
-                    .padding(.vertical, 12)
+                    .padding(.vertical, 6)
                     .background(Color(.secondarySystemBackground))
                 }
             }
