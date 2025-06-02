@@ -69,6 +69,7 @@ struct FeedView: View {
                         .padding(.horizontal)
                         .padding(.top)
                     }
+                    .scrollIndicators(.hidden)
                     .refreshable {
                         viewModel.refreshPosts()
                     }

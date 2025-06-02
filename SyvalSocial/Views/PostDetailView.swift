@@ -41,6 +41,7 @@ struct PostDetailView: View {
                         // Comments section
                         commentsSection
                     }
+                    .scrollIndicators(.hidden)
                     .padding(.bottom, 80) // Space for bottom panel
                 }
                 
@@ -259,12 +260,12 @@ struct PostDetailView: View {
                         Image(systemName: post.isLikedByCurrentUser ? "heart.fill" : "heart")
                             .font(.title3)
                             .fontWeight(.medium)
-                            .foregroundColor(post.isLikedByCurrentUser ? .red : .black)
+                            .foregroundColor(post.isLikedByCurrentUser ? .red : .adaptiveText)
                         
                         Text("\(post.likesCount)")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(.black)
+                            .foregroundColor(.adaptiveText)
                     }
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -274,12 +275,12 @@ struct PostDetailView: View {
                     Image(systemName: "bubble.right")
                         .font(.title3)
                         .fontWeight(.medium)
-                        .foregroundColor(.black)
+                        .foregroundColor(.adaptiveText)
                     
                     Text("\(post.commentsCount)")
                         .font(.subheadline)
                         .fontWeight(.medium)
-                        .foregroundColor(.black)
+                        .foregroundColor(.adaptiveText)
                 }
                 
                 Spacer()

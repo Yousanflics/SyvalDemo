@@ -135,6 +135,10 @@ struct CreatePostView: View {
                                                 .aspectRatio(contentMode: .fill)
                                                 .frame(width: 80, height: 80)
                                                 .clipShape(RoundedRectangle(cornerRadius: 8))
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 8)
+                                                        .fill(Color.adaptiveShadow.opacity(0.5))
+                                                )
                                             
                                             Button(action: {
                                                 viewModel.removeImage(at: index)
@@ -199,7 +203,7 @@ struct CreatePostView: View {
             .overlay {
                 if viewModel.isPosting {
                     ZStack {
-                        Color.black.opacity(0.3)
+                        Color.adaptiveShadow.opacity(0.5)
                             .ignoresSafeArea()
                         
                         VStack {

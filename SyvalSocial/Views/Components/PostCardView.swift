@@ -98,14 +98,12 @@ struct SocialActionsView: View {
                     Image(systemName: isLiked ? "heart.fill" : "heart")
                         .font(.title3)
                         .fontWeight(.medium)
-                        .foregroundColor(isLiked ? .red : .black)
+                        .foregroundColor(isLiked ? .red : .adaptiveText)
                     
-                    if likesCount > 0 {
-                        Text("\(likesCount)")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(.black)
-                    }
+                    Text("\(likesCount)")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(.adaptiveText)
                 }
             }
             .buttonStyle(PlainButtonStyle())
@@ -116,14 +114,12 @@ struct SocialActionsView: View {
                     Image(systemName: "bubble.right")
                         .font(.title3)
                         .fontWeight(.medium)
-                        .foregroundColor(.black)
+                        .foregroundColor(.adaptiveText)
                     
-                    if commentsCount > 0 {
-                        Text("\(commentsCount)")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(.black)
-                    }
+                    Text("\(commentsCount)")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(.adaptiveText)
                 }
             }
             .buttonStyle(PlainButtonStyle())
@@ -131,17 +127,15 @@ struct SocialActionsView: View {
             // Share button
             Button(action: onShare) {
                 HStack(spacing: 6) {
-                    Image(systemName: "arrowshape.turn.up.right")
+                    Image(systemName: "square.and.arrow.up")
                         .font(.title3)
                         .fontWeight(.medium)
-                        .foregroundColor(.black)
+                        .foregroundColor(.adaptiveText)
                     
-                    if sharesCount > 0 {
-                        Text("\(sharesCount)")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(.black)
-                    }
+                    Text("\(sharesCount)")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(.adaptiveText)
                 }
             }
             .buttonStyle(PlainButtonStyle())
@@ -153,7 +147,7 @@ struct SocialActionsView: View {
                 Image(systemName: "ellipsis")
                     .font(.title3)
                     .fontWeight(.medium)
-                    .foregroundColor(.black)
+                    .foregroundColor(.adaptiveText)
             }
             .buttonStyle(PlainButtonStyle())
         }
@@ -482,7 +476,11 @@ struct PostCardView: View {
                 likesCount: post.likesCount,
                 commentsCount: post.commentsCount,
                 sharesCount: post.sharesCount,
-                onLike: onLike,
+                onLike: {
+                    // Navigate to detail view for commenting
+                    showingPostDetail = true
+                    onLike()
+                },
                 onComment: {
                     // Navigate to detail view for commenting
                     showingPostDetail = true
@@ -516,8 +514,8 @@ struct PostCardView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+                .fill(Color(.secondarySystemBackground))
+                .shadow(color: .adaptiveShadow, radius: 4, x: 0, y: 2)
         )
         .onTapGesture {
             // Hide privacy tooltip when tapping elsewhere

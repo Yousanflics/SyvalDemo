@@ -43,7 +43,7 @@ struct GroupPhotosView: View {
                                 .padding(.vertical, 4)
                                 .background(
                                     Capsule()
-                                        .fill(Color.black.opacity(0.6))
+                                        .fill(Color.adaptiveShadow.opacity(0.8))
                                 )
                         }
                         .padding(.top, 12)
@@ -62,11 +62,11 @@ struct GroupPhotosView: View {
                         }
                     }
                     .padding(.vertical, 12)
-                    .background(Color(.systemBackground))
+                    .background(Color(.secondarySystemBackground))
                 }
             }
         }
-        .background(Color(.systemBackground))
+        .background(Color(.secondarySystemBackground))
     }
 }
 
@@ -108,7 +108,7 @@ struct PostImagePreview: View {
                     .padding(.vertical, 4)
                     .background(
                         Capsule()
-                            .fill(Color.black.opacity(0.6))
+                            .fill(Color.adaptiveShadow.opacity(0.8))
                     )
                     .padding(.top, 8)
                     .padding(.trailing, 8)
