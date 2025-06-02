@@ -12,6 +12,7 @@ struct PostDetailView: View {
     @State private var showingShareSheet = false
     @State private var expandedComments: Set<UUID> = []
     @State private var cancellables = Set<AnyCancellable>()
+    @FocusState private var isCommentFieldFocused: Bool
     
     // Follow state - in a real app, this would be managed by a user service
     @State private var isFollowing = false
@@ -43,6 +44,10 @@ struct PostDetailView: View {
                     }
                     .scrollIndicators(.hidden)
                     .padding(.bottom, 80) // Space for bottom panel
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        isCommentFieldFocused = false
+                    }
                 }
                 
                 // Bottom comment panel
@@ -254,6 +259,38 @@ struct PostDetailView: View {
             Divider()
             
             HStack(spacing: 16) {
+                // Comment input
+                HStack {
+                    HStack(spacing: 8) {
+                        Image(systemName: "pencil")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        
+                        TextField("Add Comments...", text: $commentText)
+                            .font(.subheadline)
+                            .focused($isCommentFieldFocused)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 25)
+                            .fill(Color(.systemGray6))
+                    )
+                    
+//                    Button("Post") {
+//                        if !commentText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+//                            feedViewModel.addComment(to: post, content: commentText)
+//                            commentText = ""
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                                loadComments()
+//                            }
+//                        }
+//                    }
+//                    .disabled(commentText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+                
+                Spacer()
+                
                 // Like button
                 Button(action: { feedViewModel.toggleLike(for: post) }) {
                     HStack(spacing: 6) {
@@ -282,27 +319,9 @@ struct PostDetailView: View {
                         .fontWeight(.medium)
                         .foregroundColor(.adaptiveText)
                 }
-                
-                Spacer()
-                
-                // Comment input
-                HStack {
-                    TextField("Add a comment...", text: $commentText)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
-                    Button("Post") {
-                        if !commentText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            feedViewModel.addComment(to: post, content: commentText)
-                            commentText = ""
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                loadComments()
-                            }
-                        }
-                    }
-                    .disabled(commentText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                }
             }
-            .padding()
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
             .background(Color(.systemBackground))
         }
     }

@@ -6,8 +6,8 @@ struct CreatePostView: View {
     
     // Default initializer for create mode
     init() {
-        _viewModel = StateObject(wrappedValue: CreatePostViewModel())
-    }
+            _viewModel = StateObject(wrappedValue: CreatePostViewModel())
+        }
     
     // Initializer for edit mode
     init(editingPost: SpendingPost) {

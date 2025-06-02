@@ -100,9 +100,9 @@ struct SocialActionsView: View {
                         .fontWeight(.medium)
                         .foregroundColor(isLiked ? .red : .adaptiveText)
                     
-                    Text("\(likesCount)")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
+                        Text("\(likesCount)")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
                         .foregroundColor(.adaptiveText)
                 }
             }
@@ -116,9 +116,9 @@ struct SocialActionsView: View {
                         .fontWeight(.medium)
                         .foregroundColor(.adaptiveText)
                     
-                    Text("\(commentsCount)")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
+                        Text("\(commentsCount)")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
                         .foregroundColor(.adaptiveText)
                 }
             }
@@ -132,9 +132,9 @@ struct SocialActionsView: View {
                         .fontWeight(.medium)
                         .foregroundColor(.adaptiveText)
                     
-                    Text("\(sharesCount)")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
+                        Text("\(sharesCount)")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
                         .foregroundColor(.adaptiveText)
                 }
             }
