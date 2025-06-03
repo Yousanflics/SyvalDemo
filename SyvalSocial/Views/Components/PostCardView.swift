@@ -163,7 +163,7 @@ struct SimpleCommentPreview: View {
             // User avatar
             Text(comment.user.avatarEmoji)
                 .font(.caption)
-                .frame(width: 28, height: 28)
+                .frame(width: 32, height: 32)
                 .background(
                     Circle()
                         .fill(Color(.systemGray6))
@@ -173,7 +173,7 @@ struct SimpleCommentPreview: View {
                 // Comment header
                 HStack {
                     Text(comment.user.displayName)
-                        .font(.caption)
+                        .font(Font.system(size: 16))
                         .fontWeight(.semibold)
                     
                     Text(comment.timeAgo)
@@ -201,7 +201,7 @@ struct SimpleCommentPreview: View {
                 
                 // Comment content
                 Text(comment.content)
-                    .font(.caption)
+                    .font(Font.system(size: 16))
                     .lineLimit(nil)
             }
             
@@ -239,7 +239,7 @@ struct CommentRowView: View {
                     // Comment header
                     HStack {
                         Text(comment.user.displayName)
-                            .font(.caption)
+                            .font(Font.system(size: 16))
                             .fontWeight(.semibold)
                         
                         Text(comment.timeAgo)
@@ -265,7 +265,7 @@ struct CommentRowView: View {
                     
                     // Comment content
                     Text(comment.content)
-                        .font(.caption)
+                        .font(Font.system(size: 16))
                         .lineLimit(nil)
                     
                     // Reply button for main comments
