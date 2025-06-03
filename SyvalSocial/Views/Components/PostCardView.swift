@@ -405,53 +405,7 @@ struct PostCardView: View {
             // Main content area - tappable to navigate to detail
             VStack(alignment: .leading, spacing: 16) {
                 // Spending info card with very light category color background
-                HStack {
-                    // Category icon with medium category color
-                    Text(post.category.emoji)
-                        .font(.title2)
-                        .frame(width: 40, height: 40)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(post.category.color.lighter(by: 0.4))
-                        )
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Text(post.merchantName)
-                                .font(.headline)
-                                .fontWeight(.medium)
-                            
-                            Spacer()
-                            
-                            Text(post.formattedAmount)
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .foregroundColor(post.category.color.darker())
-                        }
-                        
-                        HStack {
-                            Text(post.description)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            
-                            Spacer()
-                            
-                            // Emotion
-                            HStack(spacing: 4) {
-                                Text(post.emotion.rawValue)
-                                    .font(.caption)
-                                Text(post.emotion.description)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(post.category.color.veryLight(by: 0.15))
-                )
+                SpendingInfoCard(post: post)
                 
                 // Images preview
                 if let images = post.images, !images.isEmpty {
@@ -517,11 +471,12 @@ struct PostCardView: View {
                 .fill(Color(.secondarySystemBackground))
                 .shadow(color: .adaptiveShadow, radius: 4, x: 0, y: 2)
         )
-        .onAppear {
+        .task {
             // Always load comments when card appears to show latest comment preview
-            if post.commentsCount > 0 && comments.isEmpty {
-                loadComments()
-            }
+            loadComments()
+//            if post.commentsCount > 0 && comments.isEmpty {
+//                
+//            }
         }
         .confirmationDialog("Post Options", isPresented: $showingActionSheet, titleVisibility: .visible) {
             // Check if post belongs to current user

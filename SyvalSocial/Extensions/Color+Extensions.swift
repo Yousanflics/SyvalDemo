@@ -86,8 +86,8 @@ extension Color {
     static var adaptiveShadow: Color {
         Color(UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark 
-                ? UIColor.white.withAlphaComponent(0.1)
-                : UIColor.black.withAlphaComponent(0.1)
+                ? UIColor.white.withAlphaComponent(0.15)
+                : UIColor.black.withAlphaComponent(0.15)
         })
     }
     

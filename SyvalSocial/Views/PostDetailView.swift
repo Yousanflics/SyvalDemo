@@ -13,6 +13,8 @@ struct PostDetailView: View {
     @State private var expandedComments: Set<UUID> = []
     @State private var cancellables = Set<AnyCancellable>()
     @FocusState private var isCommentFieldFocused: Bool
+    @State private var showingPrivacyTooltip = false
+    @State private var privacyIconPosition: CGRect = .zero
     
     // Follow state - in a real app, this would be managed by a user service
     @State private var isFollowing = false
@@ -24,36 +26,76 @@ struct PostDetailView: View {
     
     var body: some View {
         ZStack {
-            // set all detailview background color
-            Color(.systemGroupedBackground)
-                .ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                // Main content in scroll view
-                ScrollView {
-                    VStack(alignment: .leading) {//, spacing: 16
-                        // Post content
-                        postContentView
-                            .padding(.top, 16)
-                        
-                        // Divider
-//                        Divider()
-//                            .padding(.horizontal)
-                        
-                        // Comments section
-                        commentsSection
-                            .padding(.horizontal, 16)
-                    }
-                    .padding(.bottom, 80) // Space for bottom panel
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        isCommentFieldFocused = false
-                    }
-                }
-                .scrollIndicators(.hidden)
+            // Main content
+            ZStack {
+                // set all detailview background color
+                Color(.systemGroupedBackground)
+                    .ignoresSafeArea()
                 
-                // Bottom comment panel
-                bottomCommentPanel
+                VStack(spacing: 0) {
+                    // Main content in scroll view
+                    ScrollView {
+                        VStack(alignment: .leading) {//, spacing: 16
+                            // Post content
+                            postContentView
+                                .padding(.top, 16)
+                            
+                            // Divider
+    //                        Divider()
+    //                            .padding(.horizontal)
+                            
+                            // Comments section
+                            commentsSection
+                                .padding(.horizontal, 16)
+                        }
+                        .padding(.bottom, 80) // Space for bottom panel
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            isCommentFieldFocused = false
+                            if showingPrivacyTooltip {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    showingPrivacyTooltip = false
+                                }
+                            }
+                        }
+                    }
+                    .scrollIndicators(.hidden)
+                    
+                    // Bottom comment panel
+                    bottomCommentPanel
+                }
+            }
+            .onPreferenceChange(PrivacyIconPositionKey.self) { position in
+                privacyIconPosition = position
+            }
+            
+            // Overlay tooltip
+            if showingPrivacyTooltip {
+                VStack(spacing: 0) {
+                    // Arrow pointing up
+                    Triangle()
+                        .fill(Color(.systemBackground))
+                        .frame(width: 12, height: 6)
+                        .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: -1)
+                    
+                    // Tooltip content
+                    Text("This post is visible to \(post.isPrivate ? "yourself" : "anyone on Syval")")
+                        .font(.caption)
+                        .foregroundColor(.primary)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color(.systemBackground))
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        )
+                }
+                .position(
+                    x: privacyIconPosition.midX,
+                    y: privacyIconPosition.maxY + 20
+                )
+                .transition(.opacity.combined(with: .scale(scale: 0.8)))
+                .zIndex(1000)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -120,51 +162,7 @@ struct PostDetailView: View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 16) {
                 // Spending info card
-                HStack {
-                    Text(post.category.emoji)
-                        .font(.title2)
-                        .frame(width: 40, height: 40)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(post.category.color.lighter(by: 0.4))
-                        )
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Text(post.merchantName)
-                                .font(.headline)
-                                .fontWeight(.medium)
-                            
-                            Spacer()
-                            
-                            Text(post.formattedAmount)
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .foregroundColor(post.category.color.darker())
-                        }
-                        
-                        HStack {
-                            Text(post.description)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            
-                            Spacer()
-                            
-                            HStack(spacing: 4) {
-                                Text(post.emotion.rawValue)
-                                    .font(.caption)
-                                Text(post.emotion.description)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(post.category.color.veryLight(by: 0.15))
-                )
+                SpendingInfoCard(post: post)
                 
                 // Full caption
                 if !post.caption.isEmpty {
@@ -193,9 +191,23 @@ struct PostDetailView: View {
                     
                     Spacer()
                     
-                    Image(systemName: post.isPrivate ? "person.fill" : "globe")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                    Button(action: {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            showingPrivacyTooltip.toggle()
+                        }
+                    }) {
+                        Image(systemName: post.isPrivate ? "person.fill" : "globe")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .background(
+                        GeometryReader { geometry in
+                            Color.clear
+                                .preference(key: PrivacyIconPositionKey.self, 
+                                          value: geometry.frame(in: .global))
+                        }
+                    )
                 }
             }
             .padding(.horizontal)
@@ -474,5 +486,28 @@ struct DetailCommentRowView: View {
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
+    }
+}
+
+// MARK: - Triangle Shape for Tooltip Arrow
+struct Triangle: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        path.move(to: CGPoint(x: rect.midX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
+        
+        return path
+    }
+}
+
+// MARK: - PreferenceKey for Privacy Icon Position
+struct PrivacyIconPositionKey: PreferenceKey {
+    static var defaultValue: CGRect = .zero
+    
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
+        value = nextValue()
     }
 } 
