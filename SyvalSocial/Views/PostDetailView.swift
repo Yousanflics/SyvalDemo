@@ -28,9 +28,18 @@ struct PostDetailView: View {
         ZStack {
             // Main content
             ZStack {
-                // set all detailview background color
-                Color(.systemGroupedBackground)
-                    .ignoresSafeArea()
+                // Background with gradient and glassy effect
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(.systemGroupedBackground),
+                        Color(.secondarySystemGroupedBackground),
+                        Color(.tertiarySystemGroupedBackground)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+                .background(.thinMaterial)
                 
                 VStack(spacing: 0) {
                     // Main content in scroll view

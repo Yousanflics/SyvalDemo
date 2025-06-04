@@ -9,9 +9,18 @@ struct FeedView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Background
-                Color(.systemGroupedBackground)
-                    .ignoresSafeArea()
+                // Background with gradient and glassy effect
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(.systemGroupedBackground),
+                        Color(.secondarySystemGroupedBackground),
+                        Color(.tertiarySystemGroupedBackground)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+                .background(.thinMaterial)
                 
                 if viewModel.isLoading && viewModel.posts.isEmpty {
                     // Loading state

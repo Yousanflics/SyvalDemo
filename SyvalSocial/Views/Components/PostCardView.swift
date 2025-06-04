@@ -317,6 +317,7 @@ struct PostCardView: View {
     @State private var showingPrivacyTooltip = false
     @State private var showingPostDetail = false
     @State private var cancellables = Set<AnyCancellable>()
+    @Environment(\.colorScheme) private var colorScheme
     
     // Check if post belongs to current user
     private var isCurrentUserPost: Bool {
@@ -468,8 +469,16 @@ struct PostCardView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.secondarySystemBackground))
-                .shadow(color: .adaptiveShadow, radius: 4, x: 0, y: 2)
+                .fill(.thinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(colorScheme == .light ? Color.white.opacity(0.4) : Color(.tertiarySystemFill))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(colorScheme == .light ? Color.white.opacity(0.6) : Color(.separator).opacity(0.3), lineWidth: 1.5)
+                )
+                .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
         )
         .task {
             // Always load comments when card appears to show latest comment preview

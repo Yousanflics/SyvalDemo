@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SpendingInfoCard: View {
     let post: SpendingPost
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         HStack {
@@ -48,14 +49,20 @@ struct SpendingInfoCard: View {
         }
         .padding()
         .background(
-            ZStack {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(.secondarySystemBackground))
-                    .shadow(color: .black.opacity(0.2), radius: 6, x: 0, y: 2)
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(post.category.color.veryLight(by: 0.5))
-            }
-            
+            RoundedRectangle(cornerRadius: 12)
+                .fill(.thinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(colorScheme == .light ? Color.white.opacity(0.5) : Color(.tertiarySystemFill))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(post.category.color.veryLight(by: 0.08))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(colorScheme == .light ? Color.white.opacity(0.7) : Color(.separator).opacity(0.2), lineWidth: 1.5)
+                )
         )
     }
 }
