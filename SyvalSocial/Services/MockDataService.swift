@@ -131,12 +131,12 @@ class MockDataService: ObservableObject {
     
     // MARK: - API Simulation Methods
     
-    func fetchPosts() -> AnyPublisher<PostFeedResponse, Error> {
+    func fetchPosts() -> some Publisher<PostFeedResponse, Error> {
         // Simulate network delay
         return Just(PostFeedResponse(posts: posts, hasMore: false, nextPage: nil))
             .setFailureType(to: Error.self)
             .delay(for: .milliseconds(500), scheduler: DispatchQueue.main)
-            .eraseToAnyPublisher()
+            //.eraseToAnyPublisher()
     }
     
     func createPost(_ request: CreatePostRequest) -> AnyPublisher<SpendingPost, Error> {
