@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CreatePostView: View {
     @StateObject private var viewModel: CreatePostViewModel
+    @StateObject private var reminderService = SpendingReminderService.shared
     @Environment(\.dismiss) private var dismiss
     
     // Default initializer for create mode

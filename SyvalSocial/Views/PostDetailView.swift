@@ -19,9 +19,17 @@ struct PostDetailView: View {
     // Follow state - in a real app, this would be managed by a user service
     @State private var isFollowing = false
     
+    // Issue marking states
+    @State private var showingIssueMarker = false
+    @StateObject private var reminderService = SpendingReminderService.shared
+    
     init(post: SpendingPost, feedViewModel: FeedViewModel) {
         self.post = post
         self._feedViewModel = StateObject(wrappedValue: feedViewModel)
+    }
+    
+    private var hasIssues: Bool {
+        !reminderService.getIssues(for: post.id).isEmpty
     }
     
     var body: some View {
@@ -162,6 +170,10 @@ struct PostDetailView: View {
             }
         }
         .nativeShareSheet(isPresented: $showingShareSheet, items: ShareHelper.generateShareContent(for: post))
+        .sheet(isPresented: $showingIssueMarker) {
+            IssueMarkerView(post: post)
+                .environmentObject(reminderService)
+        }
         .task {
             loadComments()
         }
@@ -312,6 +324,16 @@ struct PostDetailView: View {
                 }
                 
                 Spacer()
+                
+                // Issue marker button
+                Button(action: { showingIssueMarker = true }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: hasIssues ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
+                            .font(.callout)
+                            .foregroundColor(hasIssues ? .orange : .secondary)
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
                 
                 // Like button
                 Button(action: { feedViewModel.toggleLike(for: post) }) {

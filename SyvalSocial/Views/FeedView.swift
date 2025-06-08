@@ -3,8 +3,10 @@ import SwiftUI
 struct FeedView: View {
     @StateObject private var viewModel = FeedViewModel()
     @StateObject private var notificationService = NotificationService.shared
+    @StateObject private var reminderService = SpendingReminderService.shared
     @State private var showingCreatePost = false
     @State private var showingNotifications = false
+    @State private var showingReminders = false
     
     var body: some View {
         NavigationView {
@@ -140,6 +142,44 @@ struct FeedView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 8) {
+                        // Reminders button
+                        Button(action: {
+                            showingReminders = true
+                        }) {
+                            HStack(spacing: 6) {
+                                Image(systemName: "bell.badge")
+                                    .font(.caption)
+                                Text("Reminders")
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                            }
+                            .foregroundColor(.orange)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 18)
+                                    .fill(Color.orange.opacity(0.15))
+                            )
+                            .overlay(
+                                // Active reminders badge
+                                Group {
+                                    if reminderService.stats.activeReminders > 0 {
+                                        ZStack {
+                                            Circle()
+                                                .fill(Color.red)
+                                                .frame(width: 16, height: 16)
+                                            
+                                            Text("\(reminderService.stats.activeReminders)")
+                                                .font(.caption2)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.white)
+                                        }
+                                        .offset(x: 25, y: -8)
+                                    }
+                                }
+                            )
+                        }
+                        
                         // Friends button
                         Button(action: {
                             // Navigate to friends view
@@ -228,6 +268,9 @@ struct FeedView: View {
         }
         .fullScreenCover(isPresented: $showingNotifications) {
             NotificationCenterView()
+        }
+        .sheet(isPresented: $showingReminders) {
+            SpendingReminderView()
         }
 //        .sheet(isPresented: $showingNotifications) {
 //            NotificationCenterView()

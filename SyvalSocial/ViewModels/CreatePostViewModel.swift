@@ -27,6 +27,7 @@ class CreatePostViewModel: ObservableObject {
     var isEditMode: Bool { editingPost != nil }
     
     private let dataService = MockDataService.shared
+    private let reminderService = SpendingReminderService.shared
     private var cancellables = Set<AnyCancellable>()
     
     // Default initializer for create mode
@@ -139,7 +140,10 @@ class CreatePostViewModel: ObservableObject {
                             self?.errorMessage = error.localizedDescription
                         }
                     },
-                    receiveValue: { [weak self] _ in
+                    receiveValue: { [weak self] newPost in
+                        // Check reminder rules
+                        self?.reminderService.checkReminders(for: newPost)
+                        
                         self?.showingSuccessAlert = true
                         self?.resetForm()
                     }
