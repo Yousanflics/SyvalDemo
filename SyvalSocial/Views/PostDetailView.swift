@@ -4,6 +4,7 @@ import Combine
 struct PostDetailView: View {
     let post: SpendingPost
     @StateObject private var feedViewModel: FeedViewModel
+    @StateObject private var tabBarViewModel = TabBarViewModel.shared
     @Environment(\.dismiss) private var dismiss
     
     @State private var comments: [Comment] = []
@@ -176,6 +177,12 @@ struct PostDetailView: View {
         }
         .task {
             loadComments()
+        }
+        .onAppear {
+            tabBarViewModel.navigateToView(.detail)
+        }
+        .onDisappear {
+            tabBarViewModel.navigateToView(.feed)
         }
     }
     

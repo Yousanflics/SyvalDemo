@@ -8,8 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var tabBarViewModel = TabBarViewModel.shared
+    
     var body: some View {
-        FeedView()
+        ZStack {
+            FeedView()
+                .ignoresSafeArea(.keyboard, edges: .bottom)
+            
+            VStack {
+                Spacer()
+                if tabBarViewModel.isTabBarVisible {
+                    CustomTabBar()
+                        .padding(.bottom, 8)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
+        }
     }
 }
 

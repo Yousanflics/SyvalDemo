@@ -4,9 +4,8 @@ struct FeedView: View {
     @StateObject private var viewModel = FeedViewModel()
     @StateObject private var notificationService = NotificationService.shared
     @StateObject private var reminderService = SpendingReminderService.shared
-    @State private var showingCreatePost = false
-    @State private var showingNotifications = false
-    @State private var showingReminders = false
+    @StateObject private var tabBarViewModel = TabBarViewModel.shared
+    // Note: showingCreatePost, showingNotifications, and showingReminders moved to CustomTabBar
     
     var body: some View {
         NavigationView {
@@ -50,16 +49,15 @@ struct FeedView: View {
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
                         
-                        Button("Create Post") {
-                            showingCreatePost = true
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.large)
+                        Text("Tap the share button below to get started")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .italic()
                     }
                     .padding()
                 } else {
                     // Posts feed
-                    ScrollView {
+                    ScrollDetectionView {
                         LazyVStack(spacing: 16) {
                             ForEach(viewModel.posts) { post in
                                 PostCardView(
@@ -142,44 +140,6 @@ struct FeedView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 8) {
-                        // Reminders button
-                        Button(action: {
-                            showingReminders = true
-                        }) {
-                            HStack(spacing: 6) {
-                                Image(systemName: "bell.badge")
-                                    .font(.caption)
-                                Text("Reminders")
-                                    .font(.caption)
-                                    .fontWeight(.medium)
-                            }
-                            .foregroundColor(.orange)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .fill(Color.orange.opacity(0.15))
-                            )
-                            .overlay(
-                                // Active reminders badge
-                                Group {
-                                    if reminderService.stats.activeReminders > 0 {
-                                        ZStack {
-                                            Circle()
-                                                .fill(Color.red)
-                                                .frame(width: 16, height: 16)
-                                            
-                                            Text("\(reminderService.stats.activeReminders)")
-                                                .font(.caption2)
-                                                .fontWeight(.bold)
-                                                .foregroundColor(.white)
-                                        }
-                                        .offset(x: 25, y: -8)
-                                    }
-                                }
-                            )
-                        }
-                        
                         // Friends button
                         Button(action: {
                             // Navigate to friends view
@@ -199,82 +159,14 @@ struct FeedView: View {
                                     .fill(Color.indigo.veryLight())
                             )
                         }
-                        
-                        // Share/Create post button
-                        Button(action: {
-                            showingCreatePost = true
-                        }) {
-                            HStack(spacing: 6) {
-                                Image(systemName: "plus")
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                                Text("Share")
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                            }
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .fill(Color.indigo)
-                            )
-                            .overlay(
-                                // Red notification badge
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.red)
-                                        .frame(width: 18, height: 18)
-                                    
-                                    Text("10")
-                                        .font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
-                                }
-                                .offset(x: 35, y: -8)
-                            )
-                        }
-                        
-                        // Notification bell
-                        Button(action: {
-                            showingNotifications = true
-                        }) {
-                            ZStack {
-                                Image(systemName: "bell")
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                                
-                                // Unread count badge
-                                if notificationService.unreadCount > 0 {
-                                    Text("\(notificationService.unreadCount)")
-                                        .font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
-                                        .frame(minWidth: 16, minHeight: 16)
-                                        .background(
-                                            Circle()
-                                                .fill(Color.red)
-                                        )
-                                        .offset(x: 8, y: -8)
-                                }
-                            }
-                        }
                     }
                 }
             }
         }
-        .sheet(isPresented: $showingCreatePost) {
-            CreatePostView()
+        .onAppear {
+            tabBarViewModel.navigateToView(.feed)
         }
-        .fullScreenCover(isPresented: $showingNotifications) {
-            NotificationCenterView()
-        }
-        .sheet(isPresented: $showingReminders) {
-            SpendingReminderView()
-        }
-//        .sheet(isPresented: $showingNotifications) {
-//            NotificationCenterView()
-//        }
+        // Note: Sheets and fullScreenCover moved to CustomTabBar
     }
 }
 

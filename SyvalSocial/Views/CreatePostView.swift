@@ -239,6 +239,7 @@ struct CreatePostView: View {
                 Text(errorMessage)
             }
         }
+
     }
 }
 
