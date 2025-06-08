@@ -111,7 +111,7 @@ struct CustomTabBar: View {
                 .shadow(color: Color.black.opacity(0.25), radius: 10, x: 0, y: 5)
         )
         .padding(.horizontal, 60)
-        .sheet(isPresented: $showingCreatePost) {
+        .fullScreenCover(isPresented: $showingCreatePost) {
             CreatePostView()
         }
         .fullScreenCover(isPresented: $showingNotifications) {
